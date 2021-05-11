@@ -9,8 +9,8 @@ public class Player {
     private int leaguePoints;
     private char team;
 
-//Constructors
-    //Initial Registration constructor
+    // Constructors
+    // Initial Registration constructor
     public Player(String studentNo, String name, String personalEmail) {
         setStudentNo(studentNo);
         setName(name);
@@ -21,7 +21,7 @@ public class Player {
         setTeam('n');
     }
 
-    //Getters and Setters
+    // Getters and Setters
     public String getStudentNo() {
         return studentNo;
     }
@@ -74,7 +74,11 @@ public class Player {
         return team;
     }
 
-    public void setTeam(char team) {
-        this.team = team;
+    public void setTeam(char team) {this.team = team; }
+
+    @Override
+    public String toString() {
+        return  studentNo + "\n"
+                + name + "\n";
     }
 }
