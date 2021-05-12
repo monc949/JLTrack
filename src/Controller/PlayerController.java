@@ -47,7 +47,7 @@ public class PlayerController implements Globals {
 
             // create Prepared Statement for inserting into table
             pstat = connection.prepareStatement(
-                    "INSERT INTO Players (StudentNumber, Name, PersonalEmail, StudentEmail, PhoneNumber, Rank, LeaguePoints, Team) VALUES (?,?,?,?,?,?,?,?)");
+                    "INSERT INTO Players (StudentNumber, StudentName, PersonalEmail, StudentEmail, PhoneNumber, Rank, LeaguePoints, Team) VALUES (?,?,?,?,?,?,?,?)");
             pstat.setString(1, studentNo);
             pstat.setString(2, name);
             pstat.setString(3, personalEmail);
@@ -161,20 +161,21 @@ public class PlayerController implements Globals {
 
     }
 
-//TODO: got as far as here in the refactoring
 
     /**
      * Updates a Player in the Player table using the Users Entries
      * 
-     * @param PlayerID
+     * @param playerID
+     * @param studentNumber
      * @param name
-     * @param address
-     * @param postcode
-     * @param email
+     * @param personalEmail
+     * @param studentEmail
      * @param phoneNumber
+     * @param rank
+     * @param leaguePoints
+     * @param team
      */
-    public void updatePlayer(int PlayerID, String name, String address, String postcode, String email,
-            String phoneNumber) {
+    public void updatePlayer(int playerID, String studentNumber, String name, String personalEmail, String studentEmail, String phoneNumber, int rank, int leaguePoints, String team ) {
 
         Connection connection = null;
         PreparedStatement pstat = null;
@@ -184,20 +185,22 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat = connection.prepareStatement(
-                    "UPDATE Players SET Name = ?, Address = ?, Postcode = ?, Email = ?, Phonenumber = ? WHERE PlayerID = ?");
-            pstat.setString(1, name);
-            pstat.setString(2, address);
-            pstat.setString(3, postcode);
-            pstat.setString(4, email);
-            pstat.setString(5, phoneNumber);
-            pstat.setInt(6, PlayerID);
+            pstat = connection.prepareStatement("UPDATE Players SET StudentNumber = ?, StudentName = ?, PersonalEmail = ?, StudentEmail = ?, Phonenumber = ?, Rank = ?, LeaguePoints = ?, Team = ? WHERE PlayerID = ?");
+                pstat.setString(1, studentNumber);
+                pstat.setString(2, name);
+                pstat.setString(3, personalEmail);
+                pstat.setString(4, studentEmail);
+                pstat.setString(5, phoneNumber);
+                pstat.setInt(6, rank);
+                pstat.setInt(7, leaguePoints);
+                pstat.setString(8, team);
 
             // Update data in database
             pstat.executeUpdate();
+             
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
+                } finally {
             try {
                 pstat.close();
                 connection.close();
