@@ -16,9 +16,36 @@ public class League {
     private void generateMatches() {
         for (int i = 0; i < players.size(); i++) {
             for (int j = 0; j < players.size(); j++) {
-                matches.add(new Match(players.get(i), players.get(j)));
+                Match match = new Match(players.get(i), players.get(j));
+                if (!isInvalid(match)) {
+                    matches.add(match);
+                }
+
             }
         }
     }
 
+    private boolean isInvalid(Match m) {
+
+        if (m.player1 == m.player2) {
+            return true;
+        }
+        return isDuplicate(m);
+    }
+
+    private boolean isDuplicate(Match match) {
+        for (Match value : matches) {
+            if ((match.player1 == value.player1 && match.player2 == value.player2)
+                    || (match.player1 == value.player2 && match.player2 == value.player1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void showFixtures() {
+        for (Match match : matches) {
+            System.out.println(match);
+        }
+    }
 }

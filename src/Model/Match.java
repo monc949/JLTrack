@@ -5,23 +5,26 @@ public class Match {
     Player player1;
     Player player2;
     Boolean draw;
+    Boolean completed;
     Player winner;
 
-    public Match (Player player1, Player player2){
+    public Match(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
         this.draw = false;
         this.winner = null;
+        this.completed = false;
     }
 
-    public Match (Player player1, Player player2, Boolean draw, Player winner){
+    public Match(Player player1, Player player2, Boolean draw, Player winner, Boolean completed) {
         this.player1 = player1;
         this.player2 = player2;
         this.draw = draw;
+        this.completed = completed;
+
         if (draw) {
             this.winner = null;
-        }
-        else {
+        } else {
             this.winner = winner;
         }
     }
@@ -60,13 +63,13 @@ public class Match {
 
     @Override
     public String toString() {
-        if (draw){
-            return player1 + " vs " + player2 +
-                    "\nDraw";
+        if (draw) {
+            return player1 + " vs " + player2 + "\nDraw";
         }
-        else {
-            return player1 + " vs " + player2 +
-                    "\n" + "Winner : " + winner;
+        if (completed) {
+            return player1 + " vs " + player2;
+        } else {
+            return player1 + " vs " + player2 + "\n" + "Winner : " + winner;
         }
     }
 }

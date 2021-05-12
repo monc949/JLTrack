@@ -1,3 +1,4 @@
+import Model.League;
 import Model.Player;
 import Model.Team;
 
@@ -10,23 +11,22 @@ public class Driver {
         Player player3 = new Player("C00241223", "Sean", "sean8@gmail.com");
         Player player4 = new Player("C00543242", "Dan", "danturner@gmail.com");
 
-        //Teams player Arrays
+        // Teams player Arrays
 
-        //Team Objects
-        Team ATeam = new Team('A');
-        Team BTeam = new Team('B');
-        Team CTeam = new Team('C');
-        Team DTeam = new Team('D');
+        // Team Objects
+        // Team ATeam = new Team('A');
+        // Team BTeam = new Team('B');
+        // Team CTeam = new Team('C');
+        // Team DTeam = new Team('D');
 
+        ArrayList<Player> allPlayers = new ArrayList<>(50);
+        allPlayers.add(player1);
+        allPlayers.add(player2);
+        allPlayers.add(player3);
+        allPlayers.add(player4);
 
-        ATeam.addPlayer(player1);
-        ATeam.addPlayer(player2);
-        ATeam.addPlayer(player3);
-        ATeam.addPlayer(player4);
-
-        ATeam.teamOverview();
-        ATeam.teamOverviewSanNo();
-
+        League league = new League(allPlayers);
+        league.showFixtures();
 
     }
 }

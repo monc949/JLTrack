@@ -74,11 +74,12 @@ public class Player {
         return team;
     }
 
-    public void setTeam(char team) {this.team = team; }
+    public void setTeam(char team) {
+        this.team = team;
+    }
 
     @Override
     public String toString() {
-        return  studentNo + "\n"
-                + name + "\n";
+        return name + "\n";
     }
 }
