@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 public class Team {
 
-    public ArrayList<Player> players;
+    public ArrayList<Player> players = new ArrayList<>(5);
     public char teamID;
 
     public Team(char teamID) {
         this.teamID = teamID;
+    }
+    public Team(ArrayList<Player> players, char teamID) {
+        this.teamID = teamID;
+        this.players = players;
     }
 
 
@@ -32,9 +36,30 @@ public class Team {
         players.add(p);
     }
 
+    public void teamOverview() {
+        System.out.println("**********************");
+
+        System.out.println(teamID + "Team\n");
+        for (Player p : players) {
+            System.out.println(p.toString());
+        }
+        System.out.println("**********************");
+    }
+
+    public void teamOverviewSanNo() {
+        System.out.println("**********************");
+
+        System.out.println(teamID + "Team\n");
+        for (Player p : players) {
+            System.out.println(p.getName());
+        }
+        System.out.println("**********************");
+    }
+
     @Override
     public String toString() {
         return "Team = " + teamID +
-                "Players  \n" + players;
+                "\n\n" +
+                "Players;  \n" + players;
     }
 }
