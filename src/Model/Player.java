@@ -80,6 +80,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return name + "\n";
+        return name + "\n" + studentNo + "\n";
     }
 }

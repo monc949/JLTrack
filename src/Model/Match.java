@@ -64,12 +64,12 @@ public class Match {
     @Override
     public String toString() {
         if (draw) {
-            return player1 + " vs " + player2 + "\nDraw";
+            return player1.getName() + " vs " + player2.getName() + "\nDraw";
         }
-        if (completed) {
-            return player1 + " vs " + player2;
+        if (!completed) {
+            return player1.getName() + " vs " + player2.getName();
         } else {
-            return player1 + " vs " + player2 + "\n" + "Winner : " + winner;
+            return player1.getName() + " vs " + player2.getName() + "\n" + "Winner : " + winner;
         }
     }
 }
