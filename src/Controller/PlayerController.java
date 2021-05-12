@@ -107,7 +107,8 @@ public class PlayerController implements Globals {
         }
         return model;
     }
-//TODO: got as far as here in the refactoring
+
+
     /**
      * Retrieves the Player table in the form of a Combobox model
      * 
@@ -159,6 +160,8 @@ public class PlayerController implements Globals {
         return model;
 
     }
+
+//TODO: got as far as here in the refactoring
 
     /**
      * Updates a Player in the Player table using the Users Entries
