@@ -8,7 +8,6 @@ public class Player {
     private String studentEmail;
     private String personalEmail;
     private String phoneNumber;
-    private int rank;
     private int leaguePoints;
     private String team;
 
@@ -21,12 +20,11 @@ public class Player {
         setStudentEmail(studentNo);
         setPersonalEmail(personalEmail);
         setPhoneNumber(phoneNumber);
-        setRank(0);
         setLeaguePoints(0);
         setTeam("n");
     }
 
-    public Player(String playerID, String studentNo, String name, String personalEmail, String phoneNumber, int rank,
+    public Player(String playerID, String studentNo, String name, String personalEmail, String phoneNumber,
             int leaguePoints, String team) {
         setPlayerID(playerID);
         setStudentNo(studentNo);
@@ -34,7 +32,6 @@ public class Player {
         setStudentEmail(studentNo);
         setPersonalEmail(personalEmail);
         setPhoneNumber(phoneNumber);
-        setRank(rank);
         setLeaguePoints(leaguePoints);
         setTeam(team);
     }
@@ -87,14 +84,6 @@ public class Player {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
     }
 
     public int getLeaguePoints() {
