@@ -14,7 +14,7 @@ public class Player {
     // Constructors
 
     // Initial Registration constructor
-    public Player() {
+    public Player(String studentNo, String name, String personalEmail, String phoneNumber) {
         setStudentNo(studentNo);
         setName(name);
         setStudentEmail(studentNo);

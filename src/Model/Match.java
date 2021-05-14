@@ -22,8 +22,8 @@ public class Match {
         this.draw = draw;
         this.completed = completed;
 
-        if (draw) {
-            this.winner = null;
+        if (draw || !completed) {
+            this.winner = null; 
         } else {
             this.winner = winner;
         }
@@ -51,6 +51,14 @@ public class Match {
 
     public void setDraw(Boolean draw) {
         this.draw = draw;
+    }
+
+    public Boolean getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
     }
 
     public Player getWinner() {

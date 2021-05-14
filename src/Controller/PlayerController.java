@@ -46,7 +46,7 @@ public class PlayerController implements Globals {
 
             // create Prepared Statement for inserting into table
             pstat = connection.prepareStatement(
-                    "INSERT INTO Players (StudentNumber, StudentName, PersonalEmail, StudentEmail, PhoneNumber, LeaguePoints, Team) VALUES (?,?,?,?,?,?,?,?)");
+                    "INSERT INTO Player (StudentNumber, StudentName, PersonalEmail, StudentEmail, PhoneNumber, LeaguePoints, Team) VALUES (?,?,?,?,?,?,?)");
             pstat.setString(1, studentNo);
             pstat.setString(2, name);
             pstat.setString(3, personalEmail);
@@ -124,10 +124,10 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for querying table
-            pstat = connection.prepareStatement("SELECT * From Players");
+            pstat = connection.prepareStatement("SELECT * From Player");
 
             // query database
-            resultSet = pstat.executeQuery("SELECT * From Players");
+            resultSet = pstat.executeQuery("SELECT * From Player");
 
             // process query results
 
@@ -181,7 +181,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat = connection.prepareStatement("UPDATE Players SET StudentNumber = ?, StudentName = ?, PersonalEmail = ?, StudentEmail = ?, Phonenumber = ?, Rank = ?, LeaguePoints = ?, Team = ? WHERE PlayerID = ?");
+            pstat = connection.prepareStatement("UPDATE Player SET StudentNumber = ?, StudentName = ?, PersonalEmail = ?, StudentEmail = ?, Phonenumber = ?, Rank = ?, LeaguePoints = ?, Team = ? WHERE PlayerID = ?");
                 pstat.setString(1, studentNumber);
                 pstat.setString(2, name);
                 pstat.setString(3, personalEmail);
@@ -220,7 +220,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for deleting from table
-            pstat = connection.prepareStatement("Delete FROM Players WHERE PlayerID = ?");
+            pstat = connection.prepareStatement("Delete FROM Player WHERE PlayerID = ?");
             pstat.setInt(1, PlayerID);
 
             // Delete data in database
