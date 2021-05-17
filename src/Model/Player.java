@@ -1,7 +1,7 @@
 package Model;
 
 public class Player {
-    private String playerID;
+    private int playerID;
 
     private String studentNo;
     private String name;
@@ -24,7 +24,7 @@ public class Player {
         setTeam("n");
     }
 
-    public Player(String playerID, String studentNo, String name, String personalEmail, String phoneNumber,
+    public Player(int playerID, String studentNo, String name, String personalEmail, String phoneNumber,
             int leaguePoints, String team) {
         setPlayerID(playerID);
         setStudentNo(studentNo);
@@ -36,13 +36,25 @@ public class Player {
         setTeam(team);
     }
 
+    public Player(int playerID, String studentNo, String name, String personalEmail, String studentEmail, String phoneNumber,
+            int leaguePoints, String team) {
+        setPlayerID(playerID);
+        setStudentNo(studentNo);
+        setName(name);
+        this.studentEmail = studentEmail;
+        setPersonalEmail(personalEmail);
+        setPhoneNumber(phoneNumber);
+        setLeaguePoints(leaguePoints);
+        setTeam(team);
+    }
+
     // Getters and Setters
 
-    public String getPlayerID() {
+    public int getPlayerID() {
         return playerID;
     }
 
-    public void setPlayerID(String playerID) {
+    public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
 

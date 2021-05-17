@@ -2,11 +2,12 @@ package Model;
 
 public class Match {
 
+    int matchID;
     Player player1;
     Player player2;
     Boolean draw;
     Boolean completed;
-    Player winner;
+    String winner;
 
     public Match(Player player1, Player player2) {
         this.player1 = player1;
@@ -16,7 +17,18 @@ public class Match {
         this.completed = false;
     }
 
-    public Match(Player player1, Player player2, Boolean draw, Player winner, Boolean completed) {
+    public Match(int matchID, Player player1, Player player2, String winner, Boolean status) {
+        this.matchID = matchID;
+        this.player1 = player1;
+        this.player2 = player2;
+        if (winner == "DRAW") {
+            draw = true;
+        }
+        this.winner = winner;
+        this.completed = status;
+    }
+
+    public Match(Player player1, Player player2, Boolean draw, String winner, Boolean completed) {
         this.player1 = player1;
         this.player2 = player2;
         this.draw = draw;
@@ -61,11 +73,11 @@ public class Match {
         this.completed = completed;
     }
 
-    public Player getWinner() {
+    public String getWinner() {
         return winner;
     }
 
-    public void setWinner(Player winner) {
+    public void setWinner(String winner) {
         this.winner = winner;
     }
 

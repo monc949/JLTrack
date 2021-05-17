@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -93,7 +94,7 @@ public class PlayerController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Players");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 model.addRow(new Object[] { resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
@@ -111,7 +112,7 @@ public class PlayerController implements Globals {
      * 
      * @return DefaultComboBoxModel<Player>
      */
-    public DefaultComboBoxModel<Player> retrievePlayerList() {
+    public DefaultComboBoxModel<Player> retrievePlayerListModel() {
 
         DefaultComboBoxModel<Player> model = new DefaultComboBoxModel<Player>();
         Connection connection = null;
@@ -133,7 +134,7 @@ public class PlayerController implements Globals {
 
             while (resultSet.next()) {
                 Player element = new Player(
-                        resultSet.getString("PlayerID"), resultSet.getString("StudentNumber"),
+                        resultSet.getInt("PlayerID"), resultSet.getString("StudentNumber"),
                         resultSet.getString("Name"), resultSet.getString("PersonalEmail"),
                         resultSet.getString("PhoneNumber"), resultSet.getInt("LeaguePoints"),
                         resultSet.getString("Team"));
@@ -171,7 +172,7 @@ public class PlayerController implements Globals {
      * @param leaguePoints
      * @param team
      */
-    public void updatePlayer(int playerID, String studentNumber, String name, String personalEmail, String studentEmail, String phoneNumber, int rank, int leaguePoints, String team ) {
+    public void updatePlayer(int playerID, String studentNumber, String name, String personalEmail, String studentEmail, String phoneNumber, int leaguePoints, String team ) {
 
         Connection connection = null;
         PreparedStatement pstat = null;
@@ -181,7 +182,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat = connection.prepareStatement("UPDATE Player SET StudentNumber = ?, StudentName = ?, PersonalEmail = ?, StudentEmail = ?, Phonenumber = ?, Rank = ?, LeaguePoints = ?, Team = ? WHERE PlayerID = ?");
+            pstat = connection.prepareStatement("UPDATE Player SET StudentNumber = ?, StudentName = ?, PersonalEmail = ?, StudentEmail = ?, Phonenumber = ?, LeaguePoints = ?, Team = ? WHERE PlayerID = ?");
                 pstat.setString(1, studentNumber);
                 pstat.setString(2, name);
                 pstat.setString(3, personalEmail);
@@ -189,6 +190,7 @@ public class PlayerController implements Globals {
                 pstat.setString(5, phoneNumber);
                 pstat.setInt(6, leaguePoints);
                 pstat.setString(7, team);
+                pstat.setInt(8, playerID);
 
             // Update data in database
             pstat.executeUpdate();
@@ -237,4 +239,31 @@ public class PlayerController implements Globals {
             }
         }
     }
+
+     /**
+     * Retrieves the Player table in a the form of a table model
+     * 
+     * @return DefaultTableModel
+     */
+    public ArrayList<Player> retrievePlayerList() {
+        ArrayList<Player> playersList = new ArrayList<>();
+        Connection connection = null;
+
+        // ---retrieve from database---//
+        // -and populate table---//
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player");
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7), resultSet.getString(8)));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return playersList;
+    }
+
 }

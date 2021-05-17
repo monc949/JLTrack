@@ -1,10 +1,13 @@
-import Controller.PlayerController;
-import Model.Player;
+import View.MainView;
 
 public class Driver {
     public static void main(String[] args) {
-        PlayerController pc = new PlayerController();
 
-        pc.deletePlayer(1);
+
+        new MainView();
+
+
+
+
     }
 }
