@@ -30,11 +30,40 @@ public class MatchController implements Globals {
      * @param newMatches
      */
     public void batchCreateMatch(ArrayList<Match> newMatches) {
+        clearMatchTable();
         for (Match match : newMatches) {
             createNewMatch(match);
         }
     }
 
+
+
+    public void clearMatchTable() {
+        Connection connection = null;
+        PreparedStatement pstat = null;
+        try {
+
+            // establish connection to database
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+            // create Prepared Statement for inserting into table
+            pstat = connection.prepareStatement(
+                    "DELETE FROM MatchDetails");
+
+            pstat.executeUpdate();
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
+                pstat.close();
+                connection.close();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+        }
+    }
 
 
     /**

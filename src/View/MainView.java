@@ -61,7 +61,7 @@ public class MainView extends JFrame {
         // -------Main Panel (frame)-----------//
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 500);
+        frame.setSize(1200, 850);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
@@ -78,7 +78,7 @@ public class MainView extends JFrame {
         setResizable(false);
 
 //---Container---//
-        table.setModel(pc.retrievePlayerTable());
+        table.setModel(mc.retrieveMatchTable());
         
         JScrollPane pg = new JScrollPane(table);
         center.add(pg, BorderLayout.CENTER);
@@ -87,8 +87,8 @@ public class MainView extends JFrame {
 
         // -------Side Panel-------//
 
-        sideMenu.setPreferredSize(new Dimension(300, 0));
-        sideMenu.setMinimumSize(new Dimension(200, 0));
+        sideMenu.setPreferredSize(new Dimension(350, 0));
+        sideMenu.setMinimumSize(new Dimension(250, 0));
         sideMenu.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
         sideMenu.setBackground(Color.lightGray);
         sideMenu.setVisible(true);
@@ -97,12 +97,12 @@ public class MainView extends JFrame {
             // -----Match Select------//
             sideMenu.add(matchSelectLabel);
 
-            matchSelector.setPreferredSize(new Dimension(250, 700));
+            matchSelector.setPreferredSize(new Dimension(330, 450));
 
             JScrollPane matchListContainer = new JScrollPane(matchSelector);
+            matchListContainer.setPreferredSize(new Dimension(330,450));
 
             sideMenu.add(matchListContainer);
-
 
                 // -----Buttons-----//
                 submitScoreButton.addActionListener(new ButtonHandler());
@@ -158,7 +158,7 @@ public class MainView extends JFrame {
 
             //Submit Score
             if (e.getSource() == submitScoreButton) {
-
+                //TODO:
             }
 
         }
