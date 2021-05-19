@@ -16,7 +16,7 @@ public class League {
     private void generateMatches() {
         for (int i = 0; i < players.size(); i++) {
             for (int j = 0; j < players.size(); j++) {
-                Match match = new Match(players.get(i), players.get(j));
+                Match match = new Match(players.get(i).getName(), players.get(j).getName());
                 if (!isInvalid(match)) {
                     matches.add(match);
                 }
@@ -48,4 +48,10 @@ public class League {
             System.out.println(match);
         }
     }
+
+    public ArrayList<Match> getMatches() {
+        return matches;
+    }
+
+
 }

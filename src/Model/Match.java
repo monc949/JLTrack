@@ -3,13 +3,13 @@ package Model;
 public class Match {
 
     int matchID;
-    Player player1;
-    Player player2;
+    String player1;
+    String player2;
     Boolean draw;
     Boolean completed;
     String winner;
 
-    public Match(Player player1, Player player2) {
+    public Match(String player1, String player2) {
         this.player1 = player1;
         this.player2 = player2;
         this.draw = false;
@@ -17,7 +17,7 @@ public class Match {
         this.completed = false;
     }
 
-    public Match(int matchID, Player player1, Player player2, String winner, Boolean status) {
+    public Match(int matchID, String player1, String player2, String winner, Boolean status) {
         this.matchID = matchID;
         this.player1 = player1;
         this.player2 = player2;
@@ -28,7 +28,7 @@ public class Match {
         this.completed = status;
     }
 
-    public Match(Player player1, Player player2, Boolean draw, String winner, Boolean completed) {
+    public Match(String player1, String player2, Boolean draw, String winner, Boolean completed) {
         this.player1 = player1;
         this.player2 = player2;
         this.draw = draw;
@@ -41,20 +41,20 @@ public class Match {
         }
     }
 
-    public Player getPlayer1() {
+    public String getPlayer1() {
         return player1;
     }
 
     public void setPlayer1(Player player1) {
-        this.player1 = player1;
+        this.player1 = player1.getName();
     }
 
-    public Player getPlayer2() {
+    public String getPlayer2() {
         return player2;
     }
 
     public void setPlayer2(Player player2) {
-        this.player2 = player2;
+        this.player2 = player2.getName();
     }
 
     public Boolean getDraw() {
@@ -83,13 +83,7 @@ public class Match {
 
     @Override
     public String toString() {
-        if (draw) {
-            return player1.getName() + " vs " + player2.getName() + "\nDraw";
+            return player1 + " vs " + player2 + "\n";
         }
-        if (!completed) {
-            return player1.getName() + " vs " + player2.getName();
-        } else {
-            return player1.getName() + " vs " + player2.getName() + "\n" + "Winner : " + winner;
-        }
-    }
 }
+

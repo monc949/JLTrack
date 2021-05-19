@@ -11,7 +11,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 import Model.Match;
-import Model.Player;
 
 /**
  * Controller for the Match Table
@@ -28,14 +27,26 @@ public class MatchController implements Globals {
     /**
      * Creates a new record in the Match Table using a Match Object
      * 
+     * @param newMatches
+     */
+    public void batchCreateMatch(ArrayList<Match> newMatches) {
+        for (Match match : newMatches) {
+            createNewMatch(match);
+        }
+    }
+
+
+
+    /**
+     * Creates a new record in the Match Table using a Match Object
+     * 
      * @param newMatch
      */
     public void createNewMatch(Match newMatch) {
         Connection connection = null;
         PreparedStatement pstat = null;
-        String player1 = newMatch.getPlayer1().getName();
-        String player2 = newMatch.getPlayer2().getName();
-        String winner = newMatch.getWinner();
+        String player1 = newMatch.getPlayer1();
+        String player2 = newMatch.getPlayer2();
         String status;
         if (newMatch.getCompleted()) {
             status = "Played";
@@ -52,11 +63,10 @@ public class MatchController implements Globals {
 
             // create Prepared Statement for inserting into table
             pstat = connection.prepareStatement(
-                    "INSERT INTO Match (Player1, Player2, Winner, Status) VALUES (?,?,?,?)");
+                    "INSERT INTO MatchDetails (Player1, Player2, Status) VALUES (?,?,?)");
                     pstat.setString(1, player1);
                     pstat.setString(2, player2);
-                    pstat.setString(3, winner);
-                    pstat.setString(4, status);
+                    pstat.setString(3, status);
 
             pstat.executeUpdate();
 
@@ -187,9 +197,8 @@ public DefaultListModel<Match> retrieveMatchList() {
     Connection connection = null;
     PreparedStatement pstat = null;
     ResultSet resultSet = null;
-    PlayerController pc = new PlayerController();
-    Player player1 = null;
-    Player player2 = null;
+    String player1 = null;
+    String player2 = null;
     String winner = null;
     Boolean status = null;
     try{
@@ -199,33 +208,21 @@ public DefaultListModel<Match> retrieveMatchList() {
 
         
         // create Statement for querying table
-        pstat = connection.prepareStatement("SELECT * FROM Match");
+        pstat = connection.prepareStatement("SELECT * FROM MatchDetails");
         
         // query database
-        resultSet = pstat.executeQuery("SELECT * FROM Match");
+        resultSet = pstat.executeQuery("SELECT * FROM MatchDetails");
         
         // process query results
-        ArrayList<Player> players = pc.retrievePlayerList();
         
 
         while(resultSet.next() ){
 
-                    for (Player player : players) {
-                        if (player.getName() == resultSet.getString("Player1")){
-                            player1 = player;
-                        }
-                        if (player.getName() == resultSet.getString("Player2")){
-                            player2 = player;
-                        }
-                        if (player.getName() == resultSet.getString("Player2")){
-                            winner = player.getName();
-                        }
-                    }
 
-                    if (resultSet.getString("Status") == "NOT PLAYED") {
-                        status = false;
-                    }
-                    
+                    player1 = resultSet.getString("Player1");
+                    player2 = resultSet.getString("Player2");
+                    winner = resultSet.getString("Winner");
+
                     Match element = new Match(resultSet.getInt("MatchID"),
                     player1,
                     player2,

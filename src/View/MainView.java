@@ -94,7 +94,7 @@ public class MainView extends JFrame {
         sideMenu.setVisible(true);
 
 
-            // -----Product List------//
+            // -----Match Select------//
             sideMenu.add(matchSelectLabel);
 
             matchSelector.setPreferredSize(new Dimension(250, 700));
