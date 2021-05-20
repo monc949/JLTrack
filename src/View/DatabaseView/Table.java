@@ -30,6 +30,15 @@ public class Table extends JFrame {
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             } 
+
+            if (i == 2) {
+                JFrame frame = new MatchView();
+                frame.setTitle("Match Table");
+                frame.setSize(1200, 700);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } 
             
     }
 

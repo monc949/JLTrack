@@ -117,6 +117,37 @@ public class MatchController implements Globals {
      * 
      * @return DefaultTableModel
      */
+    public DefaultTableModel retrieveMatchTableMain() {
+        DefaultTableModel model = new DefaultTableModel();
+        Connection connection = null;
+
+        model.addColumn("Player 1");
+        model.addColumn("Player 2");
+        model.addColumn("Winner");
+        model.addColumn("Status");
+
+        // ---retrieve from database---//
+        // -and populate table---//
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM MatchDetails ORDER BY Winner ASC");
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                model.addRow(new Object[] { resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5) });
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return model;
+    }
+
+    /**
+     * Retrieves the Match table in a the form of a table model
+     * 
+     * @return DefaultTableModel
+     */
     public DefaultTableModel retrieveMatchTable() {
         DefaultTableModel model = new DefaultTableModel();
         Connection connection = null;
@@ -131,7 +162,7 @@ public class MatchController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM MatchDetails");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM MatchDetails ORDER BY Status DESC");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 model.addRow(new Object[] { resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),

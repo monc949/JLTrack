@@ -37,6 +37,7 @@ public class MainView extends JFrame {
     JPanel refreshButtonPanel = new JPanel();
 
     JButton playerDBButton = new JButton("Player Database");
+    JButton matchDBButton = new JButton("Match Database");
 
     JPanel buttonPanel = new JPanel();
 
@@ -78,7 +79,7 @@ public class MainView extends JFrame {
         setResizable(false);
 
 //---Container---//
-        table.setModel(mc.retrieveMatchTable());
+        table.setModel(mc.retrieveMatchTableMain());
         
         JScrollPane pg = new JScrollPane(table);
         center.add(pg, BorderLayout.CENTER);
@@ -126,6 +127,11 @@ public class MainView extends JFrame {
                 playerDBButton.addActionListener(new ButtonHandler());
                 buttonPanel.add(playerDBButton);
 
+                matchDBButton.setSize(90, 5);
+                matchDBButton.setFocusable(false);
+                matchDBButton.addActionListener(new ButtonHandler());
+                buttonPanel.add(matchDBButton);
+
                 refreshButton.setSize(90, 5);
                 refreshButton.setFocusable(false);
                 refreshButton.addActionListener(new ButtonHandler());
@@ -154,12 +160,18 @@ public class MainView extends JFrame {
                 new Table(1);
             }
 
+            //Match Database
+            if (e.getSource() == matchDBButton) {
+                new Table(2);
+            }
+
 
 
             //Submit Score
             if (e.getSource() == submitScoreButton) {
                 //TODO:
             }
+
 
         }
     }
