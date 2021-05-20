@@ -1,0 +1,18 @@
+Generate fixtures button
+
+Add player triggers new fixtures to be added to table
+
+Player stats page
+
+
+Populate textfields with table row on click
+
+Submit match results
+
+Double match fixtures (everyone plays everyone twice)
+
+Filter table to show rankings(Rankings table?) filter to show by points
+
+Teams view
+
+
