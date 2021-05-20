@@ -59,6 +59,7 @@ public class PlayerView extends JFrame{
     JTextField PhoneNumberField = new JTextField();
     JTextField LeaguePointsField = new JTextField();
     JTextField TeamField = new JTextField();
+    JTextField NotesField = new JTextField();
 
     JLabel instructionLabel = new JLabel("Hover over buttons for instructions");
 
@@ -70,6 +71,7 @@ public class PlayerView extends JFrame{
     JLabel PhoneNumberLabel = new JLabel("Phone Number");
     JLabel LeaguePointsLabel = new JLabel("League Points");
     JLabel TeamLabel = new JLabel("Team");
+    JLabel NotesLabel = new JLabel("Notes");
 
     public PlayerView() {
 
@@ -98,10 +100,7 @@ public class PlayerView extends JFrame{
 
         //-----Text Fields-----////////
 
-        IDField.setSize(12, 23);
-        IDField.setFont(font1);
-        sidePanel.add(IDLabel);
-        sidePanel.add(IDField);
+
 
 
         NameField.setSize(12, 23);
@@ -142,11 +141,16 @@ public class PlayerView extends JFrame{
         sidePanel.add(TeamLabel);
         sidePanel.add(TeamField);
 
+        NotesField.setSize(12, 23);
+        NotesField.setFont(font1);
+        sidePanel.add(NotesLabel);
+        sidePanel.add(NotesField);
+
 
 
 
         //Buttons
-        buttonPanel.setLayout(new GridLayout(3, 1, 15, 15));
+        buttonPanel.setLayout(new GridLayout(3, 1, 15, 15)); //FIXME: Layout is wrong
         buttonPanel.setBackground(Color.lightGray);
 
         sidePanel.add(instructionLabel);
@@ -158,6 +162,11 @@ public class PlayerView extends JFrame{
         editButton.addActionListener(new ButtonHandler());
         editButton.setToolTipText("Enter Player ID and fill in new Player info");
         buttonPanel.add(editButton);
+
+        IDField.setSize(12, 23);
+        IDField.setFont(font1);
+        buttonPanel.add(IDLabel);
+        buttonPanel.add(IDField);
 
         deleteButton.addActionListener(new ButtonHandler());
         deleteButton.setToolTipText("Enter Player ID only to delete ");
@@ -184,7 +193,8 @@ public class PlayerView extends JFrame{
                 cc.createNewPlayer(new Player(StudentNumberField.getText(),
                 NameField.getText(), 
                 EmailField.getText(), 
-                PhoneNumberField.getText()));
+                PhoneNumberField.getText(),
+                NotesField.getText()));
                 table.setModel(cc.retrievePlayerTable());
             }
 

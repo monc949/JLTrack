@@ -10,11 +10,12 @@ public class Player {
     private String phoneNumber;
     private int leaguePoints;
     private String team;
+    private String notes;
 
     // Constructors
 
     // Initial Registration constructor
-    public Player(String studentNo, String name, String personalEmail, String phoneNumber) {
+    public Player(String studentNo, String name, String personalEmail, String phoneNumber, String notes) {
         setStudentNo(studentNo);
         setName(name);
         setStudentEmail(studentNo);
@@ -22,10 +23,11 @@ public class Player {
         setPhoneNumber(phoneNumber);
         setLeaguePoints(0);
         setTeam("n");
+        setNotes(notes);
     }
-
+    // for editing
     public Player(int playerID, String studentNo, String name, String personalEmail, String phoneNumber,
-            int leaguePoints, String team) {
+            int leaguePoints, String team, String notes) {
         setPlayerID(playerID);
         setStudentNo(studentNo);
         setName(name);
@@ -34,10 +36,12 @@ public class Player {
         setPhoneNumber(phoneNumber);
         setLeaguePoints(leaguePoints);
         setTeam(team);
+        setNotes(notes);
     }
 
+    //for retrieving
     public Player(int playerID, String studentNo, String name, String personalEmail, String studentEmail, String phoneNumber,
-            int leaguePoints, String team) {
+            int leaguePoints, String team, String notes) {
         setPlayerID(playerID);
         setStudentNo(studentNo);
         setName(name);
@@ -46,6 +50,7 @@ public class Player {
         setPhoneNumber(phoneNumber);
         setLeaguePoints(leaguePoints);
         setTeam(team);
+        setNotes(notes);
     }
 
     // Getters and Setters
@@ -117,6 +122,21 @@ public class Player {
     @Override
     public String toString() {
         return name + "\n" + studentNo + "\n" + team + " team\n";
+    }
+
+
+    /**
+     * @return String return the notes
+     */
+    public String getNotes() {
+        return notes;
+    }
+
+    /**
+     * @param notes the notes to set
+     */
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
 }
