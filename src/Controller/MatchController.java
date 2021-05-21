@@ -11,6 +11,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 import Model.Match;
+import Model.Player;
 
 /**
  * Controller for the Match Table
@@ -31,6 +32,12 @@ public class MatchController implements Globals {
      */
     public void batchCreateMatch(ArrayList<Match> newMatches) {
         clearMatchTable();
+        for (Match match : newMatches) {
+            createNewMatch(match);
+        }
+    }
+    
+    public void batchAmendMatch(ArrayList<Match> newMatches) {
         for (Match match : newMatches) {
             createNewMatch(match);
         }
@@ -257,6 +264,64 @@ public DefaultListModel<Match> retrieveMatchList() {
     Connection connection = null;
     PreparedStatement pstat = null;
     ResultSet resultSet = null;
+    Boolean status = null;
+    try{
+    
+        // establish connection to database
+        connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+        // create Statement for querying table
+        pstat = connection.prepareStatement("SELECT * FROM MatchDetails WHERE Status = 'Not Played'");
+        
+        // query database
+        resultSet = pstat.executeQuery("SELECT * FROM MatchDetails WHERE Status = 'Not Played'");
+        
+        // process query results
+    
+        while(resultSet.next() ){
+
+
+
+                    Match element = new Match(
+                        resultSet.getInt("MatchID"),
+                        resultSet.getString("Player1"),
+                        resultSet.getString("Player2"),
+                        resultSet.getString("Winner"),
+                        status);
+
+                    model.addElement(element);
+
+            }
+    }
+            catch(SQLException sqlException ) {
+                sqlException.printStackTrace();
+        }
+            finally{
+                try{
+                    resultSet.close();
+                    pstat.close();
+                    connection.close();
+                }
+                catch ( Exception exception ){
+                    exception.printStackTrace();
+                }
+        }
+            return model;
+
+}
+
+
+/** Retrieves the Match Table in the form of a List Model
+ * @return DefaultListModel<Product>
+ */
+public DefaultListModel<Match> retrieveMatchListFiltered(Player player) {
+
+
+    DefaultListModel<Match> model = new DefaultListModel<Match>();
+
+    Connection connection = null;
+    PreparedStatement pstat = null;
+    ResultSet resultSet = null;
     String player1 = null;
     String player2 = null;
     String winner = null;
@@ -268,10 +333,11 @@ public DefaultListModel<Match> retrieveMatchList() {
 
         
         // create Statement for querying table
-        pstat = connection.prepareStatement("SELECT * FROM MatchDetails");
+        pstat = connection.prepareStatement("SELECT * FROM MatchDetails WHERE Player1 = '?'"); //FIXME: something about an out of bounds error
+        pstat.setString(1, player.getName());
         
         // query database
-        resultSet = pstat.executeQuery("SELECT * FROM MatchDetails");
+        resultSet = pstat.executeQuery("SELECT * FROM MatchDetails WHERE Player1 = '?'");
         
         // process query results
         
@@ -309,4 +375,5 @@ public DefaultListModel<Match> retrieveMatchList() {
             return model;
 
 }
+
 }

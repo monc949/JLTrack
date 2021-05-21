@@ -105,6 +105,35 @@ public class PlayerController implements Globals {
         }
         return model;
     }
+    /**
+     * Retrieves the Player table in a the form of a table model
+     * 
+     * @return DefaultTableModel
+     */
+    public DefaultTableModel retrievePlayerTableMain() {
+        DefaultTableModel model = new DefaultTableModel();
+        Connection connection = null;
+
+        model.addColumn("Student Number");
+        model.addColumn("Name");
+        model.addColumn("LeaguePoints");
+        model.addColumn("Team");
+
+        // ---retrieve from database---//
+        // -and populate table---//
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player ORDER BY LeaguePoints DESC");
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                model.addRow(new Object[] { resultSet.getString(2), resultSet.getString(3), resultSet.getInt(7), resultSet.getString(8) });
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return model;
+    }
 
 
     /**
@@ -135,7 +164,7 @@ public class PlayerController implements Globals {
             while (resultSet.next()) {
                 Player element = new Player(
                         resultSet.getInt("PlayerID"), resultSet.getString("StudentNumber"),
-                        resultSet.getString("Name"), resultSet.getString("PersonalEmail"),
+                        resultSet.getString("StudentName"), resultSet.getString("PersonalEmail"),
                         resultSet.getString("PhoneNumber"), resultSet.getInt("LeaguePoints"),
                         resultSet.getString("Team"), resultSet.getString("Notes"));
 
@@ -243,7 +272,7 @@ public class PlayerController implements Globals {
      /**
      * Retrieves the Player table in a the form of a table model
      * 
-     * @return DefaultTableModel
+     * @return playerList
      */
     public ArrayList<Player> retrievePlayerList() {
         ArrayList<Player> playersList = new ArrayList<>();
@@ -255,6 +284,33 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player");
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7), resultSet.getString(8), resultSet.getString(9)));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return playersList;
+    }
+
+     /**
+     * Retrieves the Player table in a the form of a table model
+     * 
+     * @return playerList
+     */
+    public ArrayList<Player> retrievePlayerListFiltered(Player player) {
+        ArrayList<Player> playersList = new ArrayList<>();
+        Connection connection = null;
+
+        // ---retrieve from database---//
+        // -and populate table---//
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player WHERE StudentName = ?");
+            pstm.setString(1, player.getName());
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),

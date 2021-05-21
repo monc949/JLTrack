@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,7 +21,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Controller.MatchController;
 import Controller.PlayerController;
+import Model.League;
+import Model.Match;
 import Model.Player;
 
 
@@ -150,7 +153,7 @@ public class PlayerView extends JFrame{
 
 
         //Buttons
-        buttonPanel.setLayout(new GridLayout(3, 1, 15, 15)); //FIXME: Layout is wrong
+        buttonPanel.setLayout(new GridLayout(5, 1, 15, 15)); 
         buttonPanel.setBackground(Color.lightGray);
 
         sidePanel.add(instructionLabel);
@@ -176,7 +179,7 @@ public class PlayerView extends JFrame{
 
 
         //------Final Panel Placement--------//
-        container.add(sidePanel, BorderLayout.EAST);
+        container.add(sidePanel, BorderLayout.WEST);
 
     }
 
@@ -186,19 +189,33 @@ public class PlayerView extends JFrame{
 
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent ae){
-            PlayerController cc = new PlayerController();
+            PlayerController pc = new PlayerController();
+            MatchController mc = new MatchController();
 
         if (ae.getSource()==createButton){
+            Player newPlayer = null;
             if (NameField.getText() !=null) {
-                cc.createNewPlayer(new Player(StudentNumberField.getText(),
+                newPlayer = new Player(StudentNumberField.getText(),
                 NameField.getText(), 
                 EmailField.getText(), 
                 PhoneNumberField.getText(),
-                NotesField.getText()));
-                table.setModel(cc.retrievePlayerTable());
+                NotesField.getText());
+                table.setModel(pc.retrievePlayerTable());
+                pc.createNewPlayer(newPlayer);
+            }
+            League league = new League(pc.retrievePlayerList());
+
+            ArrayList<Match> unfilteredMatchs = league.getMatches();
+            ArrayList<Match> filteredMatchs = new ArrayList<Match>();
+
+            for (Match match : unfilteredMatchs) {
+                if (match.getPlayer1() == newPlayer.getName() || match.getPlayer2() == newPlayer.getName()){
+                    filteredMatchs.add(match);
+                }
             }
 
-
+            mc.batchAmendMatch(filteredMatchs);
+            
 
         //Clear Fields after use
             IDField.setText("");
@@ -212,7 +229,7 @@ public class PlayerView extends JFrame{
 
          if (ae.getSource()==editButton){
              try {
-                cc.updatePlayer(Integer.parseInt(IDField.getText()),
+                pc.updatePlayer(Integer.parseInt(IDField.getText()),
                 StudentNumberField.getText(),
                 NameField.getText(), 
                 EmailField.getText(), 
@@ -232,7 +249,7 @@ public class PlayerView extends JFrame{
                     EmailField.setText("");
                     EmailField.setText("");
                     PhoneNumberField.setText("");
-                    table.setModel(cc.retrievePlayerTable());
+                    table.setModel(pc.retrievePlayerTable());
             }
 
 
@@ -241,7 +258,7 @@ public class PlayerView extends JFrame{
 
          if (ae.getSource()==deleteButton){
              try {
-                cc.deletePlayer(Integer.parseInt(IDField.getText()));cc.deletePlayer(Integer.parseInt(IDField.getText()));
+                pc.deletePlayer(Integer.parseInt(IDField.getText()));pc.deletePlayer(Integer.parseInt(IDField.getText()));
              } catch (Exception e) {
                 PlayerView.infoBox("You have entered the information incorrectly. \nPlease mouse over the buttons to learn how to use the functions", "Incorrect Information");  
              }
@@ -249,7 +266,7 @@ public class PlayerView extends JFrame{
              finally {
                 //Clear Fields
                 IDField.setText(""); 
-                table.setModel(cc.retrievePlayerTable());
+                table.setModel(pc.retrievePlayerTable());
              }
 
          }

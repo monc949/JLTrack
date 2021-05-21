@@ -2,13 +2,17 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -19,7 +23,9 @@ import javax.swing.table.DefaultTableModel;
 
 import Controller.MatchController;
 import Controller.PlayerController;
+import Model.League;
 import Model.Match;
+import Model.Player;
 import View.DatabaseView.Table;
 
 /**
@@ -38,6 +44,8 @@ public class MainView extends JFrame {
 
     JButton playerDBButton = new JButton("Player Database");
     JButton matchDBButton = new JButton("Match Database");
+    
+    JButton buildLeagueButton = new JButton("Generate fixtures");
 
     JPanel buttonPanel = new JPanel();
 
@@ -47,6 +55,9 @@ public class MainView extends JFrame {
 
     DefaultTableModel model = new DefaultTableModel();
     JTable table = new JTable(model);
+
+    Component playerSelectLabel = new JLabel("Select Player");
+    JComboBox<Player> playerCombobox = new JComboBox<Player>();
 
     JList<Match> matchSelector = new JList<Match>(mc.retrieveMatchList());
 
@@ -79,7 +90,7 @@ public class MainView extends JFrame {
         setResizable(false);
 
 //---Container---//
-        table.setModel(mc.retrieveMatchTableMain());
+        table.setModel(pc.retrievePlayerTableMain());
         
         JScrollPane pg = new JScrollPane(table);
         center.add(pg, BorderLayout.CENTER);
@@ -96,6 +107,19 @@ public class MainView extends JFrame {
 
 
             // -----Match Select------//
+            sideMenu.add(playerSelectLabel);
+            playerCombobox.setModel(pc.retrievePlayerListModel());
+            playerCombobox.addItemListener (new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        Player player = (Player) playerCombobox.getSelectedItem();
+                        matchSelector.setModel(mc.retrieveMatchListFiltered(player));
+                    }
+                }
+            });
+            sideMenu.add(playerCombobox);
+
             sideMenu.add(matchSelectLabel);
 
             matchSelector.setPreferredSize(new Dimension(330, 450));
@@ -137,6 +161,11 @@ public class MainView extends JFrame {
                 refreshButton.addActionListener(new ButtonHandler());
                 refreshButtonPanel.add(refreshButton);
 
+                buildLeagueButton.setSize(90, 5);
+                buildLeagueButton.setFocusable(false);
+                buildLeagueButton.addActionListener(new ButtonHandler());
+                refreshButtonPanel.add(buildLeagueButton);
+
                 topMenu.add(refreshButtonPanel, BorderLayout.WEST);
                 topMenu.add(buttonPanel, BorderLayout.NORTH);
 
@@ -165,6 +194,17 @@ public class MainView extends JFrame {
                 new Table(2);
             }
 
+            //Build League
+            if (e.getSource() == buildLeagueButton) {
+                League league = new League(pc.retrievePlayerList());
+                mc.batchCreateMatch(league.getMatches());
+                table.setModel(mc.retrieveMatchTableMain());
+
+            }
+            
+                
+            
+
 
 
             //Submit Score
@@ -172,10 +212,15 @@ public class MainView extends JFrame {
                 //TODO:
             }
 
+            //Refresh
+            if (e.getSource() == refreshButton) {
+                table.setModel(pc.retrievePlayerTableMain());
+                matchSelector.setModel(mc.retrieveMatchList());
+                playerCombobox.setModel(pc.retrievePlayerListModel());
+
+
+            }
+
 
         }
-    }
-
-
-  
-}
+        }}

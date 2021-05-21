@@ -121,7 +121,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return name + "\n" + studentNo + "\n" + team + " team\n";
+        return name;
     }
 
 

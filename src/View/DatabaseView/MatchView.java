@@ -19,10 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+
 
 import Controller.MatchController;
 import Model.Match;
@@ -207,21 +206,7 @@ public class MatchView extends JFrame{
         JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private class RowListener implements ListSelectionListener {
-
-        @Override
-        public void valueChanged(ListSelectionEvent event) {
-            if (!event.getValueIsAdjusting()) {
-                for (int c : table.getSelectedRows()) {
-                    int row = table.convertRowIndexToModel(c);
-                    TableModel model = table.getModel();
-                    for (int col = 0; col < model.getRowCount(); col++) {
-                        System.out.println(model.getValueAt(row, col));
-                    }
-                }
-            }
-        }
-    }
+    
 }
 
     
