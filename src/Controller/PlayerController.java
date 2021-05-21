@@ -322,4 +322,30 @@ public class PlayerController implements Globals {
         return playersList;
     }
 
+    /**
+     * Retrieves the Player table in a the form of a table model
+     *
+     * @return playerList
+     */
+    public Player retrievePlayerObject(String name) {
+        Player player = null;
+        Connection connection = null;
+
+        // ---retrieve from database---//
+        // -and populate table---//
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player");
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                player = new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7), resultSet.getString(8), resultSet.getString(9));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return player;
+    }
+
 }

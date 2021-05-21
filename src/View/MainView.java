@@ -57,7 +57,7 @@ public class MainView extends JFrame {
     JTable table = new JTable(model);
 
     Component playerSelectLabel = new JLabel("Select Player");
-    JComboBox<Player> playerCombobox = new JComboBox<Player>();
+    JComboBox<Player> playerCombo = new JComboBox<Player>();
 
     JList<Match> matchSelector = new JList<Match>(mc.retrieveMatchList());
 
@@ -108,17 +108,17 @@ public class MainView extends JFrame {
 
             // -----Match Select------//
             sideMenu.add(playerSelectLabel);
-            playerCombobox.setModel(pc.retrievePlayerListModel());
-            playerCombobox.addItemListener (new ItemListener() {
+            playerCombo.setModel(pc.retrievePlayerListModel());
+            playerCombo.addItemListener (new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        Player player = (Player) playerCombobox.getSelectedItem();
+                        Player player = pc.retrievePlayerObject(playerCombo.getSelectedItem()); //FIXME: Most likely will fix by creating method to build player .getSelectedItem() eg.. createPlayerObject() in the player controller
                         matchSelector.setModel(mc.retrieveMatchListFiltered(player));
                     }
                 }
             });
-            sideMenu.add(playerCombobox);
+            sideMenu.add(playerCombo);
 
             sideMenu.add(matchSelectLabel);
 
@@ -216,7 +216,7 @@ public class MainView extends JFrame {
             if (e.getSource() == refreshButton) {
                 table.setModel(pc.retrievePlayerTableMain());
                 matchSelector.setModel(mc.retrieveMatchList());
-                playerCombobox.setModel(pc.retrievePlayerListModel());
+                playerCombo.setModel(pc.retrievePlayerListModel());
 
 
             }
