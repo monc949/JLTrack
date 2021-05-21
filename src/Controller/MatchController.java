@@ -333,11 +333,12 @@ public DefaultListModel<Match> retrieveMatchListFiltered(Player player) {
 
         
         // create Statement for querying table
-        pstat = connection.prepareStatement("SELECT * FROM MatchDetails WHERE Player1 = '?'"); //FIXME: something about an out of bounds error
+        pstat = connection.prepareStatement("SELECT * FROM MatchDetails WHERE Status = 'Not Played' AND (Player1 = ? OR Player2 = ?)");
         pstat.setString(1, player.getName());
+        pstat.setString(2, player.getName());
         
         // query database
-        resultSet = pstat.executeQuery("SELECT * FROM MatchDetails WHERE Player1 = '?'");
+        resultSet = pstat.executeQuery();
         
         // process query results
         

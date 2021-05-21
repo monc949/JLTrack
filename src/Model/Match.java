@@ -17,7 +17,7 @@ public class Match {
         this.completed = false;
     }
 
-    public Match(int matchID, String player1, String player2, String winner, Boolean status) {
+    public Match(int matchID, String player1, String player2, String winner, Boolean completed) {
         this.matchID = matchID;
         this.player1 = player1;
         this.player2 = player2;
@@ -25,7 +25,7 @@ public class Match {
             draw = true;
         }
         this.winner = winner;
-        this.completed = status;
+        this.completed = completed;
     }
 
     public Match(String player1, String player2, Boolean draw, String winner, Boolean completed) {
@@ -81,9 +81,17 @@ public class Match {
         this.winner = winner;
     }
 
+    public int getMatchID() {
+        return matchID;
+    }
+
+    public void setMatchID(int matchID) {
+        this.matchID = matchID;
+    }
+
     @Override
     public String toString() {
             return player1 + " vs " + player2 + "\n";
-        }
+    }
 }
 

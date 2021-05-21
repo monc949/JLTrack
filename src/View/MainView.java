@@ -13,6 +13,7 @@ import java.awt.event.ItemListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -46,10 +47,10 @@ public class MainView extends JFrame {
     JButton matchDBButton = new JButton("Match Database");
     
     JButton buildLeagueButton = new JButton("Generate fixtures");
-
     JPanel buttonPanel = new JPanel();
-
-    JButton submitScoreButton = new JButton("Submit Score");
+    JButton player1Button = new JButton("Player 1");
+    JButton player2Button = new JButton("Player 2");
+    JButton drawButton = new JButton("Draw");
 
     JLabel matchSelectLabel = new JLabel("Select Match");
 
@@ -57,7 +58,7 @@ public class MainView extends JFrame {
     JTable table = new JTable(model);
 
     Component playerSelectLabel = new JLabel("Select Player");
-    JComboBox<Player> playerCombo = new JComboBox<Player>();
+    JComboBox<Player> playerCombo = new JComboBox<Player>(pc.retrievePlayerListModel());
 
     JList<Match> matchSelector = new JList<Match>(mc.retrieveMatchList());
 
@@ -108,12 +109,11 @@ public class MainView extends JFrame {
 
             // -----Match Select------//
             sideMenu.add(playerSelectLabel);
-            playerCombo.setModel(pc.retrievePlayerListModel());
             playerCombo.addItemListener (new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        Player player = pc.retrievePlayerObject(playerCombo.getSelectedItem()); //FIXME: Most likely will fix by creating method to build player .getSelectedItem() eg.. createPlayerObject() in the player controller
+                        Player player = (Player) playerCombo.getSelectedItem();
                         matchSelector.setModel(mc.retrieveMatchListFiltered(player));
                     }
                 }
@@ -130,8 +130,14 @@ public class MainView extends JFrame {
             sideMenu.add(matchListContainer);
 
                 // -----Buttons-----//
-                submitScoreButton.addActionListener(new ButtonHandler());
-                sideMenu.add(submitScoreButton);
+                player1Button.addActionListener(new ButtonHandler());
+                sideMenu.add(player1Button);
+
+                drawButton.addActionListener(new ButtonHandler());
+                sideMenu.add(drawButton);
+
+                player2Button.addActionListener(new ButtonHandler());
+                sideMenu.add(player2Button);
 
 
         // -----Top Panel-------//
@@ -207,9 +213,26 @@ public class MainView extends JFrame {
 
 
 
-            //Submit Score
-            if (e.getSource() == submitScoreButton) {
-                //TODO:
+            //Player 1 winner
+            if (e.getSource() == player1Button) {
+                Match match = matchSelector.getSelectedValue();
+                match.setWinner(match.getPlayer1());
+                match.setCompleted(true);
+                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
+            }
+            //Player 2 winner
+            if (e.getSource() == player2Button) {
+                Match match = matchSelector.getSelectedValue();
+                match.setWinner(match.getPlayer2());
+                match.setCompleted(true);
+                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played"); //TODO: not sure if this works yet
+            }
+            //Draw
+            if (e.getSource() == drawButton) {
+                Match match = matchSelector.getSelectedValue();
+                match.setWinner("Draw");
+                match.setCompleted(true);
+                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
             }
 
             //Refresh
@@ -217,10 +240,12 @@ public class MainView extends JFrame {
                 table.setModel(pc.retrievePlayerTableMain());
                 matchSelector.setModel(mc.retrieveMatchList());
                 playerCombo.setModel(pc.retrievePlayerListModel());
-
-
             }
 
 
+
+
         }
-        }}
+    }
+    
+}
