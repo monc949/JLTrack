@@ -60,7 +60,7 @@ public class MainView extends JFrame {
     Component playerSelectLabel = new JLabel("Select Player");
     JComboBox<Player> playerCombo = new JComboBox<Player>(pc.retrievePlayerListModel());
 
-    JList<Match> matchSelector = new JList<Match>(mc.retrieveMatchList());
+    JList<Match> matchSelector = new JList<Match>(mc.retrieveUnplayedMatchList());
 
     // ---------Constructor-----------------//
 
@@ -219,13 +219,15 @@ public class MainView extends JFrame {
                 match.setWinner(match.getPlayer1());
                 match.setCompleted(true);
                 mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
+                matchSelector.setModel(mc.retrieveUnplayedMatchList());
             }
             //Player 2 winner
             if (e.getSource() == player2Button) {
                 Match match = matchSelector.getSelectedValue();
                 match.setWinner(match.getPlayer2());
                 match.setCompleted(true);
-                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played"); //TODO: not sure if this works yet
+                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
+                matchSelector.setModel(mc.retrieveUnplayedMatchList());
             }
             //Draw
             if (e.getSource() == drawButton) {
@@ -233,12 +235,13 @@ public class MainView extends JFrame {
                 match.setWinner("Draw");
                 match.setCompleted(true);
                 mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
+                matchSelector.setModel(mc.retrieveUnplayedMatchList());
             }
 
             //Refresh
             if (e.getSource() == refreshButton) {
                 table.setModel(pc.retrievePlayerTableMain());
-                matchSelector.setModel(mc.retrieveMatchList());
+                matchSelector.setModel(mc.retrieveUnplayedMatchList());
                 playerCombo.setModel(pc.retrievePlayerListModel());
             }
 

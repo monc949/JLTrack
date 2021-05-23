@@ -159,6 +159,7 @@ public class MatchController implements Globals {
         DefaultTableModel model = new DefaultTableModel();
         Connection connection = null;
 
+        model.addColumn("Match ID");
         model.addColumn("Player 1");
         model.addColumn("Player 2");
         model.addColumn("Winner");
@@ -172,7 +173,7 @@ public class MatchController implements Globals {
             PreparedStatement pstm = connection.prepareStatement("SELECT * FROM MatchDetails ORDER BY Status DESC");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
-                model.addRow(new Object[] { resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+                model.addRow(new Object[] { resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
                         resultSet.getString(5) });
             }
         } catch (Exception e) {
@@ -200,7 +201,7 @@ public class MatchController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat = connection.prepareStatement("UPDATE MatchDetails SET Winner = ?, Status = ?, WHERE MatchID = ?");
+            pstat = connection.prepareStatement("UPDATE MatchDetails SET Winner = ?, Status = ? WHERE MatchID = ?");
                 pstat.setString(1, winner);
                 pstat.setString(2, status);
                 pstat.setInt(3, matchID);
@@ -256,7 +257,7 @@ public class MatchController implements Globals {
 /** Retrieves the Match Table in the form of a List Model
  * @return DefaultListModel<Product>
  */
-public DefaultListModel<Match> retrieveMatchList() {
+public DefaultListModel<Match> retrieveUnplayedMatchList() {
 
 
     DefaultListModel<Match> model = new DefaultListModel<Match>();

@@ -348,4 +348,38 @@ public class PlayerController implements Globals {
         return player;
     }
 
+
+
+        /**
+     * Updates a Player in the Player table using the Users Entries
+     * 
+     */
+    public void updateLeaguePoints(String winner) {
+
+        Connection connection = null;
+        PreparedStatement pstat = null;
+
+        try {
+            // establish connection to database
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+
+            // create Statement for updating table
+            pstat = connection.prepareStatement("UPDATE Player SET leaguePoints"); //FIXME:
+                pstat.setString(1, winner);
+
+            // Update data in database
+            pstat.executeUpdate();
+             
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+                } finally {
+            try {
+                pstat.close();
+                connection.close();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
 }

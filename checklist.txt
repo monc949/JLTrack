@@ -1,5 +1,3 @@
-Fix matchView (Show matchID)
-
 Player stats page
 
 
