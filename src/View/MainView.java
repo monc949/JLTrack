@@ -13,10 +13,10 @@ import java.awt.event.ItemListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,7 +46,7 @@ public class MainView extends JFrame {
     JButton playerDBButton = new JButton("Player Database");
     JButton matchDBButton = new JButton("Match Database");
     
-    JButton buildLeagueButton = new JButton("Generate fixtures");
+    JButton buildLeagueButton = new JButton("Start League");
     JPanel buttonPanel = new JPanel();
     JButton player1Button = new JButton("Player 1");
     JButton player2Button = new JButton("Player 2");
@@ -57,7 +57,7 @@ public class MainView extends JFrame {
     DefaultTableModel model = new DefaultTableModel();
     JTable table = new JTable(model);
 
-    Component playerSelectLabel = new JLabel("Select Player");
+    Component playerSelectLabel = new JLabel("Filter matches by player");
     JComboBox<Player> playerCombo = new JComboBox<Player>(pc.retrievePlayerListModel());
 
     JList<Match> matchSelector = new JList<Match>(mc.retrieveUnplayedMatchList());
@@ -122,7 +122,6 @@ public class MainView extends JFrame {
 
             sideMenu.add(matchSelectLabel);
 
-            matchSelector.setPreferredSize(new Dimension(330, 450));
 
             JScrollPane matchListContainer = new JScrollPane(matchSelector);
             matchListContainer.setPreferredSize(new Dimension(330,450));
@@ -202,9 +201,15 @@ public class MainView extends JFrame {
 
             //Build League
             if (e.getSource() == buildLeagueButton) {
-                League league = new League(pc.retrievePlayerList());
-                mc.batchCreateMatch(league.getMatches());
-                table.setModel(mc.retrieveMatchTableMain());
+                int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new League?\nThis will erase all current match records\n from the database ", null, JOptionPane.YES_NO_OPTION);
+                if (input == JOptionPane.YES_OPTION) {
+                    League league = new League(pc.retrievePlayerList());
+                    mc.batchCreateMatch(league.getMatches());
+                    table.setModel(pc.retrievePlayerTableMain());
+                    JOptionPane.showMessageDialog(null, "A new league has been created!");
+                    pc.clearPlayerLeaguePoints();
+                }
+
 
             }
             
@@ -216,27 +221,74 @@ public class MainView extends JFrame {
             //Player 1 winner
             if (e.getSource() == player1Button) {
                 Match match = matchSelector.getSelectedValue();
-                match.setWinner(match.getPlayer1());
-                match.setCompleted(true);
-                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
-                matchSelector.setModel(mc.retrieveUnplayedMatchList());
+                if (match !=null) {
+                    int input = JOptionPane.showConfirmDialog(null, "Winner : " +match.getPlayer1() + "\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
+                    if (input == JOptionPane.YES_OPTION) {
+                        match.setCompleted(true);
+    
+                        match.setWinner(match.getPlayer1());
+                        mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
+                        pc.updateLeaguePointsWinner(match.getPlayer1());
+                        pc.updateWinCount(match.getPlayer1());
+                        pc.updateLossCount(match.getPlayer2());
+    
+                        matchSelector.setModel(mc.retrieveUnplayedMatchList());
+                        table.setModel(pc.retrievePlayerTableMain());
+                }
+
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No match has been selected.\nPlease select a match and try again.");
+                }
             }
             //Player 2 winner
             if (e.getSource() == player2Button) {
                 Match match = matchSelector.getSelectedValue();
-                match.setWinner(match.getPlayer2());
-                match.setCompleted(true);
-                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
-                matchSelector.setModel(mc.retrieveUnplayedMatchList());
-            }
+                if (match !=null) {
+                    int input = JOptionPane.showConfirmDialog(null, "Winner : " +match.getPlayer2() + "\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
+                    if (input == JOptionPane.YES_OPTION) {
+                        match.setCompleted(true);
+                        match.setWinner(match.getPlayer2());
+                        mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
+                        pc.updateLeaguePointsWinner(match.getPlayer2());
+                        pc.updateWinCount(match.getPlayer2());
+                        pc.updateLossCount(match.getPlayer1());
+    
+                        matchSelector.setModel(mc.retrieveUnplayedMatchList());
+                        table.setModel(pc.retrievePlayerTableMain());
+                }
+
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No match has been selected.\nPlease select a match and try again.");
+                }
+
+                }
+
             //Draw
             if (e.getSource() == drawButton) {
                 Match match = matchSelector.getSelectedValue();
-                match.setWinner("Draw");
-                match.setCompleted(true);
-                mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
-                matchSelector.setModel(mc.retrieveUnplayedMatchList());
-            }
+                if (match !=null) {
+                    int input = JOptionPane.showConfirmDialog(null, "Match Result : DRAW\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
+                    if (input == JOptionPane.YES_OPTION) {
+                        match.setWinner("Draw");
+                        match.setCompleted(true);
+                        mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
+                        pc.updateLeaguePointsDraw(match.getPlayer1(),match.getPlayer2());
+                        pc.updateDrawCount(match.getPlayer1());
+                        pc.updateDrawCount(match.getPlayer2());
+                        
+                        matchSelector.setModel(mc.retrieveUnplayedMatchList());
+                        table.setModel(pc.retrievePlayerTableMain());
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No match has been selected.\nPlease select a match and try again.");
+                }
+
+
+                }
+
 
             //Refresh
             if (e.getSource() == refreshButton) {

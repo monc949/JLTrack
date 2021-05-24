@@ -44,6 +44,7 @@ public class MatchView extends JFrame{
     JPanel buttonPanel = new JPanel();
     JButton createButton = new JButton("Create Match");
     JButton deleteButton = new JButton("Delete Match");
+    JButton clearMatchTableButton = new JButton("Clear Match Table");
 
 
 //FONT//
@@ -145,6 +146,10 @@ public class MatchView extends JFrame{
         deleteButton.setToolTipText("Enter Match ID only to delete ");
         buttonPanel.add(deleteButton);
 
+        clearMatchTableButton.addActionListener(new ButtonHandler());
+        clearMatchTableButton.setToolTipText("Clear Match Table");
+        buttonPanel.add(clearMatchTableButton);
+
         sidePanel.add(buttonPanel);
 
 
@@ -191,6 +196,21 @@ public class MatchView extends JFrame{
              finally {
                 //Clear Fields
                 IDField.setText(""); 
+                table.setModel(mc.retrieveMatchTable());
+             }
+
+         }
+         if (ae.getSource()==clearMatchTableButton){
+             try {
+                int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to clear the match table?", null, JOptionPane.YES_NO_OPTION);
+                if (input == JOptionPane.YES_OPTION) {
+                    mc.clearMatchTable();
+                }
+             } catch (Exception e) {
+                 System.out.println(e);
+             }
+
+             finally {
                 table.setModel(mc.retrieveMatchTable());
              }
 

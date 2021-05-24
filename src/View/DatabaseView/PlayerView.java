@@ -195,11 +195,11 @@ public class PlayerView extends JFrame{
         if (ae.getSource()==createButton){
             Player newPlayer = null;
             if (NameField.getText() !=null) {
-                newPlayer = new Player(StudentNumberField.getText(),
-                NameField.getText(), 
-                EmailField.getText(), 
-                PhoneNumberField.getText(),
-                NotesField.getText());
+                    newPlayer = new Player(StudentNumberField.getText(),
+                    NameField.getText(), 
+                    EmailField.getText(), 
+                    PhoneNumberField.getText(),
+                    NotesField.getText());
                 table.setModel(pc.retrievePlayerTable());
                 pc.createNewPlayer(newPlayer);
             }
@@ -210,11 +210,17 @@ public class PlayerView extends JFrame{
 
             for (Match match : unfilteredMatchs) {
                 if (match.getPlayer1() == newPlayer.getName() || match.getPlayer2() == newPlayer.getName()){
+                }
+                else {
                     filteredMatchs.add(match);
                 }
             }
 
-            mc.batchAmendMatch(filteredMatchs);
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to generate matches for " + newPlayer.getName() + " at this time?", null, JOptionPane.YES_NO_OPTION);
+            if (input == JOptionPane.YES_OPTION) {
+                mc.batchAmendMatch(filteredMatchs);
+            }
+
             
 
         //Clear Fields after use
@@ -223,6 +229,7 @@ public class PlayerView extends JFrame{
             StudentNumberField.setText("");
             EmailField.setText("");
             PhoneNumberField.setText("");
+
 
         }
 

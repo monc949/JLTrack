@@ -1,12 +1,9 @@
 Player stats page
 
-
 Populate textfields with table row on click
 
-Submit match results
-
-Double match fixtures (everyone plays everyone twice)
-
 Teams view
+
+
 
 

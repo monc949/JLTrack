@@ -34,11 +34,13 @@ public class MatchController implements Globals {
         clearMatchTable();
         for (Match match : newMatches) {
             createNewMatch(match);
+            createNewMatch(match);
         }
     }
     
     public void batchAmendMatch(ArrayList<Match> newMatches) {
         for (Match match : newMatches) {
+            createNewMatch(match);
             createNewMatch(match);
         }
     }
