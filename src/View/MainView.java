@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.MatchController;
@@ -67,8 +68,10 @@ public class MainView extends JFrame {
     public MainView() {
 
         JFrame frame = new JFrame();
-        JPanel sideMenu = new JPanel();
+        JPanel sideMenu1 = new JPanel();
+        JPanel sideMenu2 = new JPanel();
         JPanel topMenu = new JPanel();
+        JPanel bottomMenu = new JPanel();
         JPanel center = new JPanel();
 
         // -------Main Panel (frame)-----------//
@@ -94,21 +97,31 @@ public class MainView extends JFrame {
         table.setModel(pc.retrievePlayerTableMain());
         
         JScrollPane pg = new JScrollPane(table);
+        pg.setBounds(0, 0, 250, frame.getHeight());
         center.add(pg, BorderLayout.CENTER);
 
         this.pack();
 
         // -------Side Panel-------//
 
-        sideMenu.setPreferredSize(new Dimension(350, 0));
-        sideMenu.setMinimumSize(new Dimension(250, 0));
-        sideMenu.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
-        sideMenu.setBackground(Color.lightGray);
-        sideMenu.setVisible(true);
+        sideMenu1.setPreferredSize(new Dimension(350, 0));
+        sideMenu1.setMinimumSize(new Dimension(250, 0));
+        sideMenu1.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        sideMenu1.setBackground(new Color(168, 213, 247, 150));
+        sideMenu1.setVisible(true);
+
+
+        // -------Side Panel-------//
+
+        sideMenu2.setPreferredSize(new Dimension(150, 0));
+        sideMenu2.setMinimumSize(new Dimension(50, 0));
+        sideMenu2.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 20));
+        sideMenu2.setBackground(new Color(168, 213, 247, 150));
+        sideMenu2.setVisible(true);
 
 
             // -----Match Select------//
-            sideMenu.add(playerSelectLabel);
+            sideMenu1.add(playerSelectLabel);
             playerCombo.addItemListener (new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
@@ -118,25 +131,29 @@ public class MainView extends JFrame {
                     }
                 }
             });
-            sideMenu.add(playerCombo);
 
-            sideMenu.add(matchSelectLabel);
+            Color highlight = new Color(168, 213, 247, 150);
+            Color shadow = new Color(168, 213, 247, 150);
+            playerCombo.setBorder(new BevelBorder(EXIT_ON_CLOSE, highlight, shadow));
+            sideMenu1.add(playerCombo);
+
+            sideMenu1.add(matchSelectLabel);
 
 
             JScrollPane matchListContainer = new JScrollPane(matchSelector);
             matchListContainer.setPreferredSize(new Dimension(330,450));
 
-            sideMenu.add(matchListContainer);
+            sideMenu1.add(matchListContainer);
 
                 // -----Buttons-----//
                 player1Button.addActionListener(new ButtonHandler());
-                sideMenu.add(player1Button);
+                sideMenu1.add(player1Button);
 
                 drawButton.addActionListener(new ButtonHandler());
-                sideMenu.add(drawButton);
+                sideMenu1.add(drawButton);
 
                 player2Button.addActionListener(new ButtonHandler());
-                sideMenu.add(player2Button);
+                sideMenu1.add(player2Button);
 
 
         // -----Top Panel-------//
@@ -144,9 +161,18 @@ public class MainView extends JFrame {
         topMenu.setPreferredSize(new Dimension(0, 100));
         topMenu.setMinimumSize(new Dimension(0, 70));
         topMenu.setLayout(new BorderLayout());
-        topMenu.setBackground(Color.lightGray);
-        buttonPanel.setBackground(Color.lightGray);
-        refreshButtonPanel.setBackground(Color.lightGray);
+        topMenu.setBackground(new Color(168, 213, 247, 150));
+
+        buttonPanel.setBackground(new Color(168, 213, 247, 150));
+        refreshButtonPanel.setBackground(new Color(168, 213, 247, 150));
+
+
+        // -----Bottom Panel-------//
+
+        bottomMenu.setPreferredSize(new Dimension(0, 100));
+        bottomMenu.setMinimumSize(new Dimension(0, 70));
+        bottomMenu.setLayout(new BorderLayout());
+        bottomMenu.setBackground(new Color(168, 213, 247, 150));
 
 
 
@@ -177,8 +203,10 @@ public class MainView extends JFrame {
         topMenu.setVisible(true);
 
         // -----Add components ------>
-        frame.add(sideMenu, BorderLayout.WEST);
+        frame.add(sideMenu1, BorderLayout.WEST);
+        frame.add(sideMenu2, BorderLayout.EAST);
         frame.add(topMenu, BorderLayout.NORTH);
+        frame.add(bottomMenu, BorderLayout.SOUTH);
         frame.add(center, BorderLayout.CENTER);
         frame.setVisible(true);
         
@@ -205,9 +233,11 @@ public class MainView extends JFrame {
                 if (input == JOptionPane.YES_OPTION) {
                     League league = new League(pc.retrievePlayerList());
                     mc.batchCreateMatch(league.getMatches());
-                    table.setModel(pc.retrievePlayerTableMain());
                     JOptionPane.showMessageDialog(null, "A new league has been created!");
                     pc.clearPlayerLeaguePoints();
+                    table.setModel(pc.retrievePlayerTableMain());
+                    playerCombo.setModel(pc.retrievePlayerListModel());
+
                 }
 
 
