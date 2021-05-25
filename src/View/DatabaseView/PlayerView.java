@@ -123,11 +123,6 @@ public class PlayerView extends JFrame{
         sidePanel.add(EmailLabel);
         sidePanel.add(EmailField);
 
-        StudentEmailField.setSize(12, 23);
-        StudentEmailField.setFont(font1);
-        sidePanel.add(StudentEmailLabel);
-        sidePanel.add(StudentEmailField);
-
 
         PhoneNumberField.setSize(12, 23);
         PhoneNumberField.setFont(font1);
