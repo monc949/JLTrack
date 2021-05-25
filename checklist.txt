@@ -1,9 +1,8 @@
 Player stats page
 
-Populate textfields with table row on click
-
 Teams view
 
 
 
 
+FIXME: When adding a new player and generate the subsequent matches, a match of player1 = player1 is added

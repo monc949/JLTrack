@@ -23,7 +23,6 @@ import javax.swing.table.DefaultTableModel;
 
 import Controller.MatchController;
 import Controller.PlayerController;
-import Model.League;
 import Model.Match;
 import Model.Player;
 
@@ -44,7 +43,6 @@ public class PlayerView extends JFrame{
     JPanel sidePanel = new JPanel();
     JPanel buttonPanel = new JPanel();
     JButton createButton = new JButton("Create Player");
-    JButton editButton = new JButton("Edit Player");
     JButton deleteButton = new JButton("Delete Player");
 
 
@@ -157,10 +155,6 @@ public class PlayerView extends JFrame{
         createButton.setToolTipText("Enter Player info. Do not enter enter Player ID. This will auto-generated");
         buttonPanel.add(createButton);
 
-        editButton.addActionListener(new ButtonHandler());
-        editButton.setToolTipText("Enter Player ID and fill in new Player info");
-        buttonPanel.add(editButton);
-
         IDField.setSize(12, 23);
         IDField.setFont(font1);
         buttonPanel.add(IDLabel);
@@ -198,22 +192,17 @@ public class PlayerView extends JFrame{
                 table.setModel(pc.retrievePlayerTable());
                 pc.createNewPlayer(newPlayer);
             }
-            League league = new League(pc.retrievePlayerList());
 
-            ArrayList<Match> unfilteredMatchs = league.getMatches();
-            ArrayList<Match> filteredMatchs = new ArrayList<Match>();
+            ArrayList<Player> players = pc.retrievePlayerList();
+            ArrayList<Match> newMatchList = new ArrayList<Match>();
 
-            for (Match match : unfilteredMatchs) {
-                if (match.getPlayer1() == newPlayer.getName() || match.getPlayer2() == newPlayer.getName()){
-                }
-                else {
-                    filteredMatchs.add(match);
-                }
+            for (Player player : players) {
+                newMatchList.add(new Match(newPlayer.getName(), player.getName()));
             }
 
             int input = JOptionPane.showConfirmDialog(null, "Would you like to generate matches for " + newPlayer.getName() + " at this time?", null, JOptionPane.YES_NO_OPTION);
             if (input == JOptionPane.YES_OPTION) {
-                mc.batchAmendMatch(filteredMatchs);
+                mc.batchAmendMatch(newMatchList);
             }
 
             
@@ -229,38 +218,13 @@ public class PlayerView extends JFrame{
         }
 
 
-         if (ae.getSource()==editButton){
-             try {
-                pc.updatePlayer(Integer.parseInt(IDField.getText()),
-                StudentNumberField.getText(),
-                NameField.getText(), 
-                EmailField.getText(), 
-                StudentEmailField.getText(), 
-                PhoneNumberField.getText(),
-                Integer.parseInt(LeaguePointsField.getText()),
-                TeamField.getText());
-
-             } catch (Exception e) {
-                PlayerView.infoBox("You have entered the information incorrectly. \nPlease mouse over the buttons to learn how to use the functions", "Incorrect Information");
-             }
-            finally {
-                    //Clear Fields
-                    IDField.setText("");
-                    NameField.setText(""); 
-                    StudentNumberField.setText("");
-                    EmailField.setText("");
-                    EmailField.setText("");
-                    PhoneNumberField.setText("");
-                    table.setModel(pc.retrievePlayerTable());
-            }
 
 
 
-         }
 
          if (ae.getSource()==deleteButton){
              try {
-                pc.deletePlayer(Integer.parseInt(IDField.getText()));pc.deletePlayer(Integer.parseInt(IDField.getText()));
+                pc.deletePlayer(Integer.parseInt(IDField.getText()));
              } catch (Exception e) {
                 PlayerView.infoBox("You have entered the information incorrectly. \nPlease mouse over the buttons to learn how to use the functions", "Incorrect Information");  
              }

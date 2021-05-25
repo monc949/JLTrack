@@ -24,7 +24,6 @@ import javax.swing.table.DefaultTableModel;
 
 
 import Controller.MatchController;
-import Model.Match;
 
 
 /**
@@ -42,7 +41,6 @@ public class MatchView extends JFrame{
     JTable table = new JTable(model);
     JPanel sidePanel = new JPanel();
     JPanel buttonPanel = new JPanel();
-    JButton createButton = new JButton("Create Match");
     JButton deleteButton = new JButton("Delete Match");
     JButton clearMatchTableButton = new JButton("Clear Match Table");
 
@@ -54,28 +52,17 @@ public class MatchView extends JFrame{
 //Fields and Labels
 
     JTextField IDField = new JTextField();
-    JTextField Player1Field = new JTextField();
-    JTextField Player2Field = new JTextField();
-    JTextField WinnerField = new JTextField();
-    JTextField StatusField = new JTextField();
 
     ArrayList<JTextField> textFieldArray = new ArrayList<JTextField>();
 
     JLabel instructionLabel = new JLabel("Hover over buttons for instructions");
 
     JLabel IDLabel = new JLabel("Match ID");
-    JLabel Player1Label = new JLabel("Player1");
-    JLabel Player2Label = new JLabel("Player 2");
-    JLabel WinnerLabel = new JLabel("Winner");
-    JLabel StatusLabel = new JLabel("Status");
 
     public MatchView() {
 
         textFieldArray.add(IDField);
-        textFieldArray.add(Player1Field);
-        textFieldArray.add(Player2Field);
-        textFieldArray.add(WinnerField);
-        textFieldArray.add(StatusField);
+
 
         // ---------------Table----------------//
 
@@ -98,36 +85,6 @@ public class MatchView extends JFrame{
         sidePanel.setVisible(true);
 
 
-
-        //-----Text Fields-----////////
-
-
-        Player1Field.setSize(12, 23);
-        Player1Field.setFont(font1);
-        sidePanel.add(Player1Label);
-        sidePanel.add(Player1Field);
-
-
-        Player2Field.setSize(12, 23);
-        Player2Field.setFont(font1);
-        sidePanel.add(Player2Label);
-        sidePanel.add(Player2Field);
-
-
-        WinnerField.setSize(12, 23);
-        WinnerField.setFont(font1);
-        sidePanel.add(WinnerLabel);
-        sidePanel.add(WinnerField);
-
-        StatusField.setSize(12, 23);
-        StatusField.setFont(font1);
-        sidePanel.add(StatusLabel);
-        sidePanel.add(StatusField);
-
-
-        createButton.addActionListener(new ButtonHandler());
-        createButton.setToolTipText("Enter Match info. Do not enter enter Match ID. This will auto-generated");
-        sidePanel.add(createButton);
 
 
         buttonPanel.setLayout(new GridLayout(3, 1, 15, 15));
@@ -164,28 +121,6 @@ public class MatchView extends JFrame{
 
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent ae){
-
-        if (ae.getSource()==createButton){
-            if (Player2Field.getText() !=null) {
-                mc.createNewMatch(new Match(Player1Field.getText(),
-                Player2Field.getText()));
-                table.setModel(mc.retrieveMatchTable());
-            }
-
-
-
-        //Clear Fields after use
-            IDField.setText("");
-            Player2Field.setText(""); 
-            Player1Field.setText("");
-            WinnerField.setText("");
-            StatusField.setText("");
-
-        }
-
-
-
-
          if (ae.getSource()==deleteButton){
              try {
                 mc.deleteMatch(Integer.parseInt(IDField.getText()));

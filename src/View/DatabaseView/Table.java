@@ -24,7 +24,7 @@ public class Table extends JFrame {
         public Table(int i) {
             if (i == 1) {
                 JFrame frame = new PlayerView();
-                frame.setTitle("Product Table");
+                frame.setTitle("Player Table");
                 frame.setSize(1200, 700);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);

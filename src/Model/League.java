@@ -5,6 +5,14 @@ import java.util.ArrayList;
 public class League {
 
     ArrayList<Player> players;
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
     ArrayList<Match> matches = new ArrayList<>(50);
 
     public League(ArrayList<Player> players) {

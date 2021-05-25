@@ -39,7 +39,9 @@ public class MatchController implements Globals {
     
     public void batchAmendMatch(ArrayList<Match> newMatches) {
         for (Match match : newMatches) {
-            createNewMatch(match);
+                if (match.getPlayer1() != match.getPlayer2()){
+                    createNewMatch(match);
+                }
         }
     }
 
