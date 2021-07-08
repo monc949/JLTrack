@@ -2,6 +2,8 @@ Player stats page
 
 Teams view
 
+Add Logo to main view
+
 
 
 

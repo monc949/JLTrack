@@ -84,7 +84,7 @@ public class MainView extends JFrame {
         // -----------Center panel-------------//
 
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
-        center.setBackground(Color.lightGray);
+        center.setBackground(new Color(107, 106, 104));
         center.setVisible(true);
 
                 // ---------------Table----------------//
@@ -107,7 +107,7 @@ public class MainView extends JFrame {
         sideMenu1.setPreferredSize(new Dimension(350, 0));
         sideMenu1.setMinimumSize(new Dimension(250, 0));
         sideMenu1.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
-        sideMenu1.setBackground(new Color(168, 213, 247, 150));
+        sideMenu1.setBackground(new Color(107, 106, 104));
         sideMenu1.setVisible(true);
 
 
@@ -116,11 +116,12 @@ public class MainView extends JFrame {
         sideMenu2.setPreferredSize(new Dimension(150, 0));
         sideMenu2.setMinimumSize(new Dimension(50, 0));
         sideMenu2.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 20));
-        sideMenu2.setBackground(new Color(168, 213, 247, 150));
+        sideMenu2.setBackground(new Color(107, 106, 104));
         sideMenu2.setVisible(true);
 
 
             // -----Match Select------//
+            playerSelectLabel.setForeground(Color.WHITE);
             sideMenu1.add(playerSelectLabel);
             playerCombo.addItemListener (new ItemListener() {
                 @Override
@@ -137,6 +138,7 @@ public class MainView extends JFrame {
             playerCombo.setBorder(new BevelBorder(EXIT_ON_CLOSE, highlight, shadow));
             sideMenu1.add(playerCombo);
 
+            matchSelectLabel.setForeground(Color.WHITE);
             sideMenu1.add(matchSelectLabel);
 
 
@@ -161,10 +163,10 @@ public class MainView extends JFrame {
         topMenu.setPreferredSize(new Dimension(0, 100));
         topMenu.setMinimumSize(new Dimension(0, 70));
         topMenu.setLayout(new BorderLayout());
-        topMenu.setBackground(new Color(168, 213, 247, 150));
+        topMenu.setBackground(new Color(107, 106, 104));
 
-        buttonPanel.setBackground(new Color(168, 213, 247, 150));
-        refreshButtonPanel.setBackground(new Color(168, 213, 247, 150));
+        buttonPanel.setBackground(new Color(107, 106, 104));
+        refreshButtonPanel.setBackground(new Color(107, 106, 104));
 
 
         // -----Bottom Panel-------//
@@ -172,7 +174,7 @@ public class MainView extends JFrame {
         bottomMenu.setPreferredSize(new Dimension(0, 100));
         bottomMenu.setMinimumSize(new Dimension(0, 70));
         bottomMenu.setLayout(new BorderLayout());
-        bottomMenu.setBackground(new Color(168, 213, 247, 150));
+        bottomMenu.setBackground(new Color(107, 106, 104));
 
 
 
