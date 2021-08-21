@@ -1,4 +1,4 @@
-# LeagueTracker
+# JLTrack
 A program to store players information, along with league scores and rankings
 
 This Program is written entirely in Java using a Swing GUI.
