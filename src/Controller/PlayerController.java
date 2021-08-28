@@ -44,7 +44,7 @@ public class PlayerController implements Globals {
 
             // create Prepared Statement for inserting into table
             pstat = connection.prepareStatement(
-                    "INSERT INTO Player (StudentNumber, StudentName, PersonalEmail, StudentEmail, PhoneNumber, LeaguePoints, Team) VALUES (?,?,?,?,?,?,?)");
+                    "INSERT INTO player (StudentNumber, StudentName, PersonalEmail, StudentEmail, PhoneNumber, LeaguePoints, Team) VALUES (?,?,?,?,?,?,?)");
             pstat.setString(1, studentNo);
             pstat.setString(2, name);
             pstat.setString(3, personalEmail);
@@ -87,7 +87,7 @@ public class PlayerController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM player");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 model.addRow(new Object[] { resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
@@ -114,7 +114,7 @@ public class PlayerController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player ORDER BY LeaguePoints DESC");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM player ORDER BY LeaguePoints DESC");
             ResultSet resultSet = pstm.executeQuery();
             int i = 1;
             while (resultSet.next()) {
@@ -142,10 +142,10 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for querying table
-            pstat = connection.prepareStatement("SELECT * From Player");
+            pstat = connection.prepareStatement("SELECT * From player");
 
             // query database
-            resultSet = pstat.executeQuery("SELECT * From Player");
+            resultSet = pstat.executeQuery("SELECT * From player");
 
             // process query results
 
@@ -188,7 +188,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat = connection.prepareStatement("UPDATE Player SET StudentNumber = ?, StudentName = ?, PersonalEmail = ?, StudentEmail = ?, Phonenumber = ?, LeaguePoints = ?, Team = ? WHERE PlayerID = ?");
+            pstat = connection.prepareStatement("UPDATE player SET StudentNumber = ?, StudentName = ?, PersonalEmail = ?, StudentEmail = ?, Phonenumber = ?, LeaguePoints = ?, Team = ? WHERE PlayerID = ?");
                 pstat.setString(1, studentNumber);
                 pstat.setString(2, name);
                 pstat.setString(3, personalEmail);
@@ -223,7 +223,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for deleting from table
-            pstat = connection.prepareStatement("Delete FROM Player WHERE PlayerID = ?");
+            pstat = connection.prepareStatement("Delete FROM player WHERE PlayerID = ?");
             pstat.setInt(1, PlayerID);
 
             // Delete data in database
@@ -250,7 +250,7 @@ public class PlayerController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM player");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
@@ -272,7 +272,7 @@ public class PlayerController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Player WHERE StudentName = ?");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM player WHERE StudentName = ?");
             pstm.setString(1, player.getName());
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
@@ -297,7 +297,7 @@ public class PlayerController implements Globals {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            pstat = connection.prepareStatement("SELECT LeaguePoints FROM Player WHERE StudentName = ?");
+            pstat = connection.prepareStatement("SELECT LeaguePoints FROM player WHERE StudentName = ?");
                 pstat.setString(1, player);
 
                 resultSet = pstat.executeQuery();
@@ -330,7 +330,7 @@ public class PlayerController implements Globals {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            pstat = connection.prepareStatement("Update Player SET LeaguePoints = 0");
+            pstat = connection.prepareStatement("Update player SET LeaguePoints = 0");
 
             pstat.executeUpdate();
 
@@ -358,7 +358,7 @@ public class PlayerController implements Globals {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            pstat = connection.prepareStatement("SELECT Draws FROM Player WHERE StudentName = ?");
+            pstat = connection.prepareStatement("SELECT Draws FROM player WHERE StudentName = ?");
                 pstat.setString(1, player);
 
                 resultSet = pstat.executeQuery();
@@ -392,7 +392,7 @@ public class PlayerController implements Globals {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            pstat = connection.prepareStatement("SELECT Wins FROM Player WHERE StudentName = ?");
+            pstat = connection.prepareStatement("SELECT Wins FROM player WHERE StudentName = ?");
                 pstat.setString(1, player);
 
                 resultSet = pstat.executeQuery();
@@ -426,7 +426,7 @@ public class PlayerController implements Globals {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            pstat = connection.prepareStatement("SELECT Losses FROM Player WHERE StudentName = ?");
+            pstat = connection.prepareStatement("SELECT Losses FROM player WHERE StudentName = ?");
                 pstat.setString(1, player);
                 
                 resultSet = pstat.executeQuery();
@@ -463,7 +463,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat = connection.prepareStatement("UPDATE Player SET LeaguePoints = ? WHERE StudentName = ?");
+            pstat = connection.prepareStatement("UPDATE player SET LeaguePoints = ? WHERE StudentName = ?");
                 pstat.setInt(1, updatedPoints);
                 pstat.setString(2, player);
 
@@ -499,8 +499,8 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat1 = connection.prepareStatement("UPDATE Player SET LeaguePoints = ? WHERE StudentName = ?");
-            pstat2 = connection.prepareStatement("UPDATE Player SET LeaguePoints = ? WHERE StudentName = ?");
+            pstat1 = connection.prepareStatement("UPDATE player SET LeaguePoints = ? WHERE StudentName = ?");
+            pstat2 = connection.prepareStatement("UPDATE player SET LeaguePoints = ? WHERE StudentName = ?");
 
             pstat1.setInt(1, updatedPoints1);
             pstat2.setInt(1, updatedPoints2);
@@ -537,7 +537,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat1 = connection.prepareStatement("UPDATE Player SET Draws = ? WHERE StudentName = ?");
+            pstat1 = connection.prepareStatement("UPDATE player SET Draws = ? WHERE StudentName = ?");
 
             pstat1.setInt(1, updatedDrawCount);
 
@@ -569,7 +569,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat1 = connection.prepareStatement("UPDATE Player SET Wins = ? WHERE StudentName = ?");
+            pstat1 = connection.prepareStatement("UPDATE player SET Wins = ? WHERE StudentName = ?");
 
             pstat1.setInt(1, updatedWinCount);
 
@@ -601,7 +601,7 @@ public class PlayerController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat1 = connection.prepareStatement("UPDATE Player SET Losses = ? WHERE StudentName = ?");
+            pstat1 = connection.prepareStatement("UPDATE player SET Losses = ? WHERE StudentName = ?");
 
             pstat1.setInt(1, updatedLossCount);
 

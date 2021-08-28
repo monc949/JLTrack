@@ -191,6 +191,7 @@ public class PlayerView extends JFrame{
                     NotesField.getText());
                 table.setModel(pc.retrievePlayerTable());
                 pc.createNewPlayer(newPlayer);
+                table.setModel(pc.retrievePlayerTable());
             }
 
             ArrayList<Player> players = pc.retrievePlayerList();

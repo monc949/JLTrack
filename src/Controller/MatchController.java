@@ -57,7 +57,7 @@ public class MatchController implements Globals {
 
             // create Prepared Statement for inserting into table
             pstat = connection.prepareStatement(
-                    "DELETE FROM MatchDetails");
+                    "DELETE FROM matchdetails");
 
             pstat.executeUpdate();
 
@@ -101,7 +101,7 @@ public class MatchController implements Globals {
 
             // create Prepared Statement for inserting into table
             pstat = connection.prepareStatement(
-                    "INSERT INTO MatchDetails (Player1, Player2, Status) VALUES (?,?,?)");
+                    "INSERT INTO matchdetails (Player1, Player2, Status) VALUES (?,?,?)");
                     pstat.setString(1, player1);
                     pstat.setString(2, player2);
                     pstat.setString(3, status);
@@ -140,7 +140,7 @@ public class MatchController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM MatchDetails ORDER BY Winner ASC");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM matchdetails ORDER BY Winner ASC");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 model.addRow(new Object[] { resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
@@ -172,7 +172,7 @@ public class MatchController implements Globals {
         try {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM MatchDetails ORDER BY Status DESC");
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM matchdetails ORDER BY Status DESC");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 model.addRow(new Object[] { resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
@@ -203,7 +203,7 @@ public class MatchController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for updating table
-            pstat = connection.prepareStatement("UPDATE MatchDetails SET Winner = ?, Status = ? WHERE MatchID = ?");
+            pstat = connection.prepareStatement("UPDATE matchdetails SET Winner = ?, Status = ? WHERE MatchID = ?");
                 pstat.setString(1, winner);
                 pstat.setString(2, status);
                 pstat.setInt(3, matchID);
@@ -238,7 +238,7 @@ public class MatchController implements Globals {
             connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
             // create Statement for deleting from table
-            pstat = connection.prepareStatement("Delete FROM MatchDetails WHERE MatchID = ?");
+            pstat = connection.prepareStatement("Delete FROM matchdetails WHERE MatchID = ?");
             pstat.setInt(1, matchID);
 
             // Delete data in database
@@ -274,10 +274,10 @@ public DefaultListModel<Match> retrieveUnplayedMatchList() {
         connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 
         // create Statement for querying table
-        pstat = connection.prepareStatement("SELECT * FROM MatchDetails WHERE Status = 'Not Played'");
+        pstat = connection.prepareStatement("SELECT * FROM matchdetails WHERE Status = 'Not Played'");
         
         // query database
-        resultSet = pstat.executeQuery("SELECT * FROM MatchDetails WHERE Status = 'Not Played'");
+        resultSet = pstat.executeQuery("SELECT * FROM matchdetails WHERE Status = 'Not Played'");
         
         // process query results
     
@@ -336,7 +336,7 @@ public DefaultListModel<Match> retrieveMatchListFiltered(Player player) {
 
         
         // create Statement for querying table
-        pstat = connection.prepareStatement("SELECT * FROM MatchDetails WHERE Status = 'Not Played' AND (Player1 = ? OR Player2 = ?)");
+        pstat = connection.prepareStatement("SELECT * FROM matchdetails WHERE Status = 'Not Played' AND (Player1 = ? OR Player2 = ?)");
         pstat.setString(1, player.getName());
         pstat.setString(2, player.getName());
         
