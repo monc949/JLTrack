@@ -239,6 +239,8 @@ public class MainView extends JFrame {
                     pc.clearPlayerLeaguePoints();
                     table.setModel(pc.retrievePlayerTableMain());
                     playerCombo.setModel(pc.retrievePlayerListModel());
+                    matchSelector.setModel(mc.retrieveUnplayedMatchList());
+
 
                 }
 
