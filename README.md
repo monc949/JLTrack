@@ -11,10 +11,17 @@ At the top, there is a button dedicated to opening both the match list table, an
 Within these tables are textfields and buttons used to delte/edit/create matches and players.
 
 
+
+
+************************
+Setup
+************************
+Import the provided .sql files to a MySQL database and point the address
 ************************
 Features in Development
 ************************
 
-1. Player Stats page including wins/losses etc.
-2. Print out list of players and details
-3. Team view/edit screen
+1. Team view/edit screen
+2. Player Stats page including wins/losses etc.
+3. Print out list of players and details
+
