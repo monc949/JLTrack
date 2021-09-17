@@ -16,7 +16,10 @@ Within these tables are textfields and buttons used to delte/edit/create matches
 ************************
 Setup
 ************************
-Import the provided .sql files to a MySQL database and point the address
+1. Import the provided .sql files to a MySQL database.
+2. Rename "/src/Controller/GlobalsExample.java" to Globals.java
+3. Enter your database details into the Globals.java file
+
 ************************
 Features in Development
 ************************
