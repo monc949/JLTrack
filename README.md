@@ -20,11 +20,4 @@ Setup
 2. Rename "/src/Controller/GlobalsExample.java" to Globals.java
 3. Enter your database details into the Globals.java file
 
-************************
-Features in Development
-************************
-
-1. Team view/edit screen
-2. Player Stats page including wins/losses etc.
-3. Print out list of players and details
 
