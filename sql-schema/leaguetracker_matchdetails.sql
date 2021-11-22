@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `leaguetracker` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `leaguetracker` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `leaguetracker`;
 -- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
 --
@@ -31,7 +31,7 @@ CREATE TABLE `matchdetails` (
   `Winner` varchar(255) DEFAULT NULL,
   `Status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`MatchID`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

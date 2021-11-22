@@ -46,7 +46,7 @@ public class MainView extends JFrame {
 
     JButton playerDBButton = new JButton("Player Database");
     JButton matchDBButton = new JButton("Match Database");
-    
+
     JButton buildLeagueButton = new JButton("Start League");
     JPanel buttonPanel = new JPanel();
     JButton player1Button = new JButton("Player 1");
@@ -87,15 +87,15 @@ public class MainView extends JFrame {
         center.setBackground(new Color(107, 106, 104));
         center.setVisible(true);
 
-                // ---------------Table----------------//
+        // ---------------Table----------------//
 
         // Make table uneditable
         table.setEnabled(false);
         setResizable(false);
 
-//---Container---//
+        // ---Container---//
         table.setModel(pc.retrievePlayerTableMain());
-        
+
         JScrollPane pg = new JScrollPane(table);
         pg.setBounds(0, 0, 250, frame.getHeight());
         center.add(pg, BorderLayout.CENTER);
@@ -110,7 +110,6 @@ public class MainView extends JFrame {
         sideMenu1.setBackground(new Color(107, 106, 104));
         sideMenu1.setVisible(true);
 
-
         // -------Side Panel-------//
 
         sideMenu2.setPreferredSize(new Dimension(150, 0));
@@ -119,44 +118,41 @@ public class MainView extends JFrame {
         sideMenu2.setBackground(new Color(107, 106, 104));
         sideMenu2.setVisible(true);
 
-
-            // -----Match Select------//
-            playerSelectLabel.setForeground(Color.WHITE);
-            sideMenu1.add(playerSelectLabel);
-            playerCombo.addItemListener (new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        Player player = (Player) playerCombo.getSelectedItem();
-                        matchSelector.setModel(mc.retrieveMatchListFiltered(player));
-                    }
+        // -----Match Select------//
+        playerSelectLabel.setForeground(Color.WHITE);
+        sideMenu1.add(playerSelectLabel);
+        playerCombo.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    Player player = (Player) playerCombo.getSelectedItem();
+                    matchSelector.setModel(mc.retrieveMatchListFiltered(player));
                 }
-            });
+            }
+        });
 
-            Color highlight = new Color(168, 213, 247, 150);
-            Color shadow = new Color(168, 213, 247, 150);
-            playerCombo.setBorder(new BevelBorder(EXIT_ON_CLOSE, highlight, shadow));
-            sideMenu1.add(playerCombo);
+        Color highlight = new Color(168, 213, 247, 150);
+        Color shadow = new Color(168, 213, 247, 150);
+        playerCombo.setBorder(new BevelBorder(EXIT_ON_CLOSE, highlight, shadow));
+        sideMenu1.add(playerCombo);
 
-            matchSelectLabel.setForeground(Color.WHITE);
-            sideMenu1.add(matchSelectLabel);
+        matchSelectLabel.setForeground(Color.WHITE);
+        sideMenu1.add(matchSelectLabel);
 
+        JScrollPane matchListContainer = new JScrollPane(matchSelector);
+        matchListContainer.setPreferredSize(new Dimension(330, 250));
 
-            JScrollPane matchListContainer = new JScrollPane(matchSelector);
-            matchListContainer.setPreferredSize(new Dimension(330,450));
+        sideMenu1.add(matchListContainer);
 
-            sideMenu1.add(matchListContainer);
+        // -----Buttons-----//
+        player1Button.addActionListener(new ButtonHandler());
+        sideMenu1.add(player1Button);
 
-                // -----Buttons-----//
-                player1Button.addActionListener(new ButtonHandler());
-                sideMenu1.add(player1Button);
+        drawButton.addActionListener(new ButtonHandler());
+        sideMenu1.add(drawButton);
 
-                drawButton.addActionListener(new ButtonHandler());
-                sideMenu1.add(drawButton);
-
-                player2Button.addActionListener(new ButtonHandler());
-                sideMenu1.add(player2Button);
-
+        player2Button.addActionListener(new ButtonHandler());
+        sideMenu1.add(player2Button);
 
         // -----Top Panel-------//
 
@@ -168,7 +164,6 @@ public class MainView extends JFrame {
         buttonPanel.setBackground(new Color(107, 106, 104));
         refreshButtonPanel.setBackground(new Color(107, 106, 104));
 
-
         // -----Bottom Panel-------//
 
         bottomMenu.setPreferredSize(new Dimension(0, 100));
@@ -176,31 +171,29 @@ public class MainView extends JFrame {
         bottomMenu.setLayout(new BorderLayout());
         bottomMenu.setBackground(new Color(107, 106, 104));
 
+        // -----Buttons-----//
+        playerDBButton.setSize(90, 5);
+        playerDBButton.setFocusable(false);
+        playerDBButton.addActionListener(new ButtonHandler());
+        buttonPanel.add(playerDBButton);
 
+        matchDBButton.setSize(90, 5);
+        matchDBButton.setFocusable(false);
+        matchDBButton.addActionListener(new ButtonHandler());
+        buttonPanel.add(matchDBButton);
 
-                // -----Buttons-----//
-                playerDBButton.setSize(90, 5);
-                playerDBButton.setFocusable(false);
-                playerDBButton.addActionListener(new ButtonHandler());
-                buttonPanel.add(playerDBButton);
+        refreshButton.setSize(90, 5);
+        refreshButton.setFocusable(false);
+        refreshButton.addActionListener(new ButtonHandler());
+        refreshButtonPanel.add(refreshButton);
 
-                matchDBButton.setSize(90, 5);
-                matchDBButton.setFocusable(false);
-                matchDBButton.addActionListener(new ButtonHandler());
-                buttonPanel.add(matchDBButton);
+        buildLeagueButton.setSize(90, 5);
+        buildLeagueButton.setFocusable(false);
+        buildLeagueButton.addActionListener(new ButtonHandler());
+        refreshButtonPanel.add(buildLeagueButton);
 
-                refreshButton.setSize(90, 5);
-                refreshButton.setFocusable(false);
-                refreshButton.addActionListener(new ButtonHandler());
-                refreshButtonPanel.add(refreshButton);
-
-                buildLeagueButton.setSize(90, 5);
-                buildLeagueButton.setFocusable(false);
-                buildLeagueButton.addActionListener(new ButtonHandler());
-                refreshButtonPanel.add(buildLeagueButton);
-
-                topMenu.add(refreshButtonPanel, BorderLayout.WEST);
-                topMenu.add(buttonPanel, BorderLayout.NORTH);
+        topMenu.add(refreshButtonPanel, BorderLayout.WEST);
+        topMenu.add(buttonPanel, BorderLayout.NORTH);
 
         topMenu.setVisible(true);
 
@@ -211,7 +204,6 @@ public class MainView extends JFrame {
         frame.add(bottomMenu, BorderLayout.SOUTH);
         frame.add(center, BorderLayout.CENTER);
         frame.setVisible(true);
-        
 
     }
 
@@ -219,19 +211,21 @@ public class MainView extends JFrame {
 
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //Player Database
+            // Player Database
             if (e.getSource() == playerDBButton) {
                 new Table(1);
             }
 
-            //Match Database
+            // Match Database
             if (e.getSource() == matchDBButton) {
                 new Table(2);
             }
 
-            //Build League
+            // Build League
             if (e.getSource() == buildLeagueButton) {
-                int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new League?\nThis will erase all current match records\n from the database ", null, JOptionPane.YES_NO_OPTION);
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to start a new League?\nThis will erase all current match records\n from the database ",
+                        null, JOptionPane.YES_NO_OPTION);
                 if (input == JOptionPane.YES_OPTION) {
                     League league = new League(pc.retrievePlayerList());
                     mc.batchCreateMatch(league.getMatches());
@@ -241,45 +235,40 @@ public class MainView extends JFrame {
                     playerCombo.setModel(pc.retrievePlayerListModel());
                     matchSelector.setModel(mc.retrieveUnplayedMatchList());
 
-
                 }
 
-
             }
-            
-                
-            
 
-
-
-            //Player 1 winner
+            // Player 1 winner
             if (e.getSource() == player1Button) {
                 Match match = matchSelector.getSelectedValue();
-                if (match !=null) {
-                    int input = JOptionPane.showConfirmDialog(null, "Winner : " +match.getPlayer1() + "\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
+                if (match != null) {
+                    int input = JOptionPane.showConfirmDialog(null,
+                            "Winner : " + match.getPlayer1() + "\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
                     if (input == JOptionPane.YES_OPTION) {
                         match.setCompleted(true);
-    
+
                         match.setWinner(match.getPlayer1());
                         mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
                         pc.updateLeaguePointsWinner(match.getPlayer1());
                         pc.updateWinCount(match.getPlayer1());
                         pc.updateLossCount(match.getPlayer2());
-    
+
                         matchSelector.setModel(mc.retrieveUnplayedMatchList());
                         table.setModel(pc.retrievePlayerTableMain());
-                }
+                    }
 
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "No match has been selected.\nPlease select a match and try again.");
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "No match has been selected.\nPlease select a match and try again.");
                 }
             }
-            //Player 2 winner
+            // Player 2 winner
             if (e.getSource() == player2Button) {
                 Match match = matchSelector.getSelectedValue();
-                if (match !=null) {
-                    int input = JOptionPane.showConfirmDialog(null, "Winner : " +match.getPlayer2() + "\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
+                if (match != null) {
+                    int input = JOptionPane.showConfirmDialog(null,
+                            "Winner : " + match.getPlayer2() + "\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
                     if (input == JOptionPane.YES_OPTION) {
                         match.setCompleted(true);
                         match.setWinner(match.getPlayer2());
@@ -287,54 +276,50 @@ public class MainView extends JFrame {
                         pc.updateLeaguePointsWinner(match.getPlayer2());
                         pc.updateWinCount(match.getPlayer2());
                         pc.updateLossCount(match.getPlayer1());
-    
+
                         matchSelector.setModel(mc.retrieveUnplayedMatchList());
                         table.setModel(pc.retrievePlayerTableMain());
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "No match has been selected.\nPlease select a match and try again.");
                 }
 
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "No match has been selected.\nPlease select a match and try again.");
-                }
+            }
 
-                }
-
-            //Draw
+            // Draw
             if (e.getSource() == drawButton) {
                 Match match = matchSelector.getSelectedValue();
-                if (match !=null) {
-                    int input = JOptionPane.showConfirmDialog(null, "Match Result : DRAW\nIs this correct?", null, JOptionPane.YES_NO_OPTION);
+                if (match != null) {
+                    int input = JOptionPane.showConfirmDialog(null, "Match Result : DRAW\nIs this correct?", null,
+                            JOptionPane.YES_NO_OPTION);
                     if (input == JOptionPane.YES_OPTION) {
                         match.setWinner("Draw");
                         match.setCompleted(true);
                         mc.updateMatch(match.getMatchID(), match.getWinner(), "Played");
-                        pc.updateLeaguePointsDraw(match.getPlayer1(),match.getPlayer2());
+                        pc.updateLeaguePointsDraw(match.getPlayer1(), match.getPlayer2());
                         pc.updateDrawCount(match.getPlayer1());
                         pc.updateDrawCount(match.getPlayer2());
-                        
+
                         matchSelector.setModel(mc.retrieveUnplayedMatchList());
                         table.setModel(pc.retrievePlayerTableMain());
                     }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "No match has been selected.\nPlease select a match and try again.");
-                }
-
-
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "No match has been selected.\nPlease select a match and try again.");
                 }
 
+            }
 
-            //Refresh
+            // Refresh
             if (e.getSource() == refreshButton) {
                 table.setModel(pc.retrievePlayerTableMain());
                 matchSelector.setModel(mc.retrieveUnplayedMatchList());
                 playerCombo.setModel(pc.retrievePlayerListModel());
             }
 
-
-
-
         }
     }
-    
+
 }
