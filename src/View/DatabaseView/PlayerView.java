@@ -26,11 +26,10 @@ import Controller.PlayerController;
 import Model.Match;
 import Model.Player;
 
-
 /**
  * Player Database Manangement Window
  */
-public class PlayerView extends JFrame{
+public class PlayerView extends JFrame {
     /**
      *
      */
@@ -45,19 +44,14 @@ public class PlayerView extends JFrame{
     JButton createButton = new JButton("Create Player");
     JButton deleteButton = new JButton("Delete Player");
 
-
-//FONT//
+    // FONT//
     Font font1 = new Font("SansSerif", Font.PLAIN, 14);
 
-
-//Fields and Labels
+    // Fields and Labels
 
     JTextField IDField = new JTextField();
     JTextField StudentNumberField = new JTextField();
     JTextField NameField = new JTextField();
-    JTextField EmailField = new JTextField();
-    JTextField StudentEmailField = new JTextField();
-    JTextField PhoneNumberField = new JTextField();
     JTextField LeaguePointsField = new JTextField();
     JTextField TeamField = new JTextField();
     JTextField NotesField = new JTextField();
@@ -65,11 +59,8 @@ public class PlayerView extends JFrame{
     JLabel instructionLabel = new JLabel("Hover over buttons for instructions");
 
     JLabel IDLabel = new JLabel("Player ID");
-    JLabel AddressLabel = new JLabel("Student Number");
+    JLabel StudentNumberLabel = new JLabel("Student Number");
     JLabel NameLabel = new JLabel("Name");
-    JLabel EmailLabel = new JLabel("Personal Email");
-    JLabel StudentEmailLabel = new JLabel("Student Email");
-    JLabel PhoneNumberLabel = new JLabel("Phone Number");
     JLabel LeaguePointsLabel = new JLabel("League Points");
     JLabel TeamLabel = new JLabel("Team");
     JLabel NotesLabel = new JLabel("Notes");
@@ -82,10 +73,10 @@ public class PlayerView extends JFrame{
         table.setEnabled(false);
         setResizable(false);
 
-//---Container---//
+        // ---Container---//
         container.setLayout(new BorderLayout());
         table.setModel(pc.retrievePlayerTable());
-        
+
         JScrollPane pg = new JScrollPane(table);
         container.add(pg, BorderLayout.CENTER);
 
@@ -97,35 +88,17 @@ public class PlayerView extends JFrame{
         sidePanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 345, 15));
         sidePanel.setVisible(true);
 
-
-
-        //-----Text Fields-----////////
-
-
-
+        // -----Text Fields-----////////
 
         NameField.setSize(12, 23);
         NameField.setFont(font1);
         sidePanel.add(NameLabel);
         sidePanel.add(NameField);
 
-
         StudentNumberField.setSize(12, 23);
         StudentNumberField.setFont(font1);
-        sidePanel.add(AddressLabel);
+        sidePanel.add(StudentNumberLabel);
         sidePanel.add(StudentNumberField);
-
-
-        EmailField.setSize(12, 23);
-        EmailField.setFont(font1);
-        sidePanel.add(EmailLabel);
-        sidePanel.add(EmailField);
-
-
-        PhoneNumberField.setSize(12, 23);
-        PhoneNumberField.setFont(font1);
-        sidePanel.add(PhoneNumberLabel);
-        sidePanel.add(PhoneNumberField);
 
         LeaguePointsField.setSize(12, 23);
         LeaguePointsField.setFont(font1);
@@ -142,11 +115,8 @@ public class PlayerView extends JFrame{
         sidePanel.add(NotesLabel);
         sidePanel.add(NotesField);
 
-
-
-
-        //Buttons
-        buttonPanel.setLayout(new GridLayout(5, 1, 15, 15)); 
+        // Buttons
+        buttonPanel.setLayout(new GridLayout(5, 1, 15, 15));
         buttonPanel.setBackground(Color.lightGray);
 
         sidePanel.add(instructionLabel);
@@ -166,87 +136,70 @@ public class PlayerView extends JFrame{
 
         sidePanel.add(buttonPanel);
 
-
-        //------Final Panel Placement--------//
+        // ------Final Panel Placement--------//
         container.add(sidePanel, BorderLayout.WEST);
 
     }
 
-
-    //-----Both of these next methods control the create and edit requirements for Player database------///////
-
+    // -----Both of these next methods control the create and edit requirements for
+    // Player database------///////
 
     private class ButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent ae){
+        public void actionPerformed(ActionEvent ae) {
             PlayerController pc = new PlayerController();
             MatchController mc = new MatchController();
 
-        if (ae.getSource()==createButton){
-            Player newPlayer = null;
-            if (NameField.getText() !=null) {
-                    newPlayer = new Player(StudentNumberField.getText(),
-                    NameField.getText(), 
-                    EmailField.getText(), 
-                    PhoneNumberField.getText(),
-                    NotesField.getText());
-                table.setModel(pc.retrievePlayerTable());
-                pc.createNewPlayer(newPlayer);
-                table.setModel(pc.retrievePlayerTable());
+            if (ae.getSource() == createButton) {
+                Player newPlayer = null;
+                if (NameField.getText() != null) {
+                    newPlayer = new Player(StudentNumberField.getText(), NameField.getText(), NotesField.getText());
+                    table.setModel(pc.retrievePlayerTable());
+                    pc.createNewPlayer(newPlayer);
+                    table.setModel(pc.retrievePlayerTable());
+                }
+
+                ArrayList<Player> players = pc.retrievePlayerList();
+                ArrayList<Match> newMatchList = new ArrayList<Match>();
+
+                for (Player player : players) {
+                    newMatchList.add(new Match(newPlayer.getName(), player.getName()));
+                }
+
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Would you like to generate matches for " + newPlayer.getName() + " at this time?", null,
+                        JOptionPane.YES_NO_OPTION);
+                if (input == JOptionPane.YES_OPTION) {
+                    mc.batchAmendMatch(newMatchList);
+                }
+
+                // Clear Fields after use
+                IDField.setText("");
+                NameField.setText("");
+                StudentNumberField.setText("");
+
             }
 
-            ArrayList<Player> players = pc.retrievePlayerList();
-            ArrayList<Match> newMatchList = new ArrayList<Match>();
+            if (ae.getSource() == deleteButton) {
+                try {
+                    pc.deletePlayer(Integer.parseInt(IDField.getText()));
+                } catch (Exception e) {
+                    PlayerView.infoBox(
+                            "You have entered the information incorrectly. \nPlease mouse over the buttons to learn how to use the functions",
+                            "Incorrect Information");
+                }
 
-            for (Player player : players) {
-                newMatchList.add(new Match(newPlayer.getName(), player.getName()));
+                finally {
+                    // Clear Fields
+                    IDField.setText("");
+                    table.setModel(pc.retrievePlayerTable());
+                }
+
             }
-
-            int input = JOptionPane.showConfirmDialog(null, "Would you like to generate matches for " + newPlayer.getName() + " at this time?", null, JOptionPane.YES_NO_OPTION);
-            if (input == JOptionPane.YES_OPTION) {
-                mc.batchAmendMatch(newMatchList);
-            }
-
-            
-
-        //Clear Fields after use
-            IDField.setText("");
-            NameField.setText(""); 
-            StudentNumberField.setText("");
-            EmailField.setText("");
-            PhoneNumberField.setText("");
-
-
-        }
-
-
-
-
-
-
-         if (ae.getSource()==deleteButton){
-             try {
-                pc.deletePlayer(Integer.parseInt(IDField.getText()));
-             } catch (Exception e) {
-                PlayerView.infoBox("You have entered the information incorrectly. \nPlease mouse over the buttons to learn how to use the functions", "Incorrect Information");  
-             }
-
-             finally {
-                //Clear Fields
-                IDField.setText(""); 
-                table.setModel(pc.retrievePlayerTable());
-             }
-
-         }
 
         }
     }
 
-    
-
-    public static void infoBox(String infoMessage, String titleBar)
-    {
+    public static void infoBox(String infoMessage, String titleBar) {
         JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 }
-    
-
