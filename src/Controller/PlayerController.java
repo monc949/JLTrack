@@ -27,7 +27,6 @@ public class PlayerController implements Globals {
     public void createNewPlayer(Player newPlayer) {
         Connection connection = null;
         PreparedStatement pstat = null;
-        String studentNo = newPlayer.getStudentNo();
         String name = newPlayer.getName();
         int leaguePoints = newPlayer.getLeaguePoints();
 
@@ -38,10 +37,9 @@ public class PlayerController implements Globals {
 
             // create Prepared Statement for inserting into table
             pstat = connection.prepareStatement(
-                    "INSERT INTO player (StudentNumber, StudentName, PersonalEmail, StudentEmail, PhoneNumber, LeaguePoints, Team) VALUES (?,?,?,?,?,?,?)");
-            pstat.setString(1, studentNo);
+                    "INSERT INTO player (StudentName, LeaguePoints) VALUES (?,?)");
             pstat.setString(2, name);
-            pstat.setInt(6, leaguePoints);
+            pstat.setInt(3, leaguePoints);
             pstat.executeUpdate();
 
         } catch (SQLException sqlException) {
@@ -62,10 +60,11 @@ public class PlayerController implements Globals {
         Connection connection = null;
 
         model.addColumn("PlayerID");
-        model.addColumn("Student Number");
         model.addColumn("Name");
         model.addColumn("LeaguePoints");
-        model.addColumn("Team");
+        model.addColumn("Wins");
+        model.addColumn("Losses");
+        model.addColumn("Draws");
 
         // ---retrieve from database---//
         // -and populate table---//
@@ -75,9 +74,8 @@ public class PlayerController implements Globals {
             PreparedStatement pstm = connection.prepareStatement("SELECT * FROM player");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
-                model.addRow(new Object[] { resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-                        resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7),
-                        resultSet.getString(8) });
+                model.addRow(new Object[] { resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3),
+                        resultSet.getInt(4), resultSet.getInt(5), resultSet.getInt(6) });
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -102,7 +100,7 @@ public class PlayerController implements Globals {
             ResultSet resultSet = pstm.executeQuery();
             int i = 1;
             while (resultSet.next()) {
-                model.addRow(new Object[] { i, resultSet.getString(3), resultSet.getInt(4) });
+                model.addRow(new Object[] { i, resultSet.getString(2), resultSet.getInt(3) });
                 i++;
             }
         } catch (Exception e) {
@@ -132,9 +130,8 @@ public class PlayerController implements Globals {
             // process query results
 
             while (resultSet.next()) {
-                Player element = new Player(resultSet.getInt("PlayerID"), resultSet.getString("StudentNumber"),
-                        resultSet.getString("StudentName"), resultSet.getInt("LeaguePoints"),
-                        resultSet.getString("Notes"));
+                Player element = new Player(resultSet.getInt("PlayerID"),
+                        resultSet.getString("StudentName"), resultSet.getInt("LeaguePoints"));
 
                 model.addElement(element);
 
@@ -156,8 +153,7 @@ public class PlayerController implements Globals {
 
     }
 
-    public void updatePlayer(int playerID, String studentNumber, String name, String personalEmail, String studentEmail,
-            String phoneNumber, int leaguePoints, String team) {
+    public void updatePlayer(int playerID, String name, int leaguePoints) {
 
         Connection connection = null;
         PreparedStatement pstat = null;
@@ -168,8 +164,7 @@ public class PlayerController implements Globals {
 
             // create Statement for updating table
             pstat = connection.prepareStatement(
-                    "UPDATE player SET StudentNumber = ?, StudentName = ?, LeaguePoints = ?, WHERE PlayerID = ?");
-            pstat.setString(1, studentNumber);
+                    "UPDATE player SET StudentName = ?, LeaguePoints = ?, WHERE PlayerID = ?");
             pstat.setString(2, name);
             pstat.setInt(3, leaguePoints);
             pstat.setInt(4, playerID);
@@ -229,8 +224,7 @@ public class PlayerController implements Globals {
             PreparedStatement pstm = connection.prepareStatement("SELECT * FROM player");
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
-                playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-                        resultSet.getInt(4), resultSet.getString(5)));
+                playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3)));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -251,8 +245,7 @@ public class PlayerController implements Globals {
             pstm.setString(1, player.getName());
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
-                playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-                        resultSet.getInt(4), resultSet.getString(5)));
+                playersList.add(new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(4)));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
